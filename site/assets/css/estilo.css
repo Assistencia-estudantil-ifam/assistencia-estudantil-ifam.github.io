@@ -228,7 +228,7 @@ button.barra:hover { background: var(--verde-50); }
 .barras__total { display: grid; grid-template-columns: minmax(120px, 240px) minmax(0, 1fr) var(--col-valor); gap: 12px; padding: 12px 4px 0; margin-top: 8px; border-top: 1px solid var(--linha); font-size: 0.875rem; }
 .barras__total b { text-align: right; }
 .barras__total span { color: var(--tinta-3); font-size: 0.8125rem; }
-.barras__total strong { color: var(--verde-700); font-variant-numeric: tabular-nums; }
+.barras__total strong { color: var(--verde-700); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
 
 /* grupo (anos) */
 .grupo { display: grid; gap: 14px; }
@@ -356,7 +356,7 @@ td .mais { border: 0; background: none; padding: 0; color: var(--verde-700); fon
 .card__meta .icone { width: 16px; height: 16px; color: var(--verde-700); transition: transform 200ms ease-out; }
 .card:hover .card__meta .icone { transform: translateX(3px); }
 .hub-atualizado { display: none; margin-top: 14px; }
-.anos-topo { align-items: end; margin-top: 8px; }
+.anos-topo { align-items: start; margin-top: 8px; }
 .anos-topo .resumo { margin-top: 0; }
 
 /* ------------------------------------------------------------ rodapé */
@@ -376,8 +376,11 @@ td .mais { border: 0; background: none; padding: 0; color: var(--verde-700); fon
   .indicador__valor { font-size: 1.0625rem; }
   .indicador__rotulo { font-size: 0.8125rem; }
   .topo { border-radius: 0 0 18px 18px; padding: 22px 0 26px; }
-  .barra, .barras__total, .grupo__item, .etapa { grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; }
-  .barra__rotulo, .etapa__nome, .grupo__item > .barra__rotulo { grid-column: 1 / -1; text-align: left; white-space: normal; }
+  .barra, .grupo__item, .etapa { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "rot val" "tri tri"; gap: 4px 12px; align-items: end; }
+  .barra__rotulo, .etapa__nome { grid-area: rot; text-align: left; white-space: normal; }
+  .barra__valor, .variacao { grid-area: val; min-width: 0; }
+  .barra > .barra__trilho, .etapa > .barra__trilho, .grupo__barras { grid-area: tri; }
+  .barras__total { grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; }
   .barras__total b { text-align: left; }
   .barras__total span { display: none; }
   .secao__controle, .secao__controle select { width: 100%; min-width: 0; }
@@ -387,7 +390,6 @@ td .mais { border: 0; background: none; padding: 0; color: var(--verde-700); fon
   .hub-cabecalho { padding-top: 32px; }
   .hub-topo .estado { display: none; }
   .hub-atualizado { display: inline-flex; }
-  :root { --col-valor: 21ch; }
   .barra__valor, .variacao { font-size: 0.8125rem; }
   .card__capa { height: 180px; }
   .tabela-topo input[type="search"] { max-width: none; }
