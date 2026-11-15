@@ -9,7 +9,21 @@ const ORDEM_ACOES = ["2994", "21IV", "21IH", "00PI"];
 const COR_ANO = ["var(--ano-1)", "var(--ano-2)", "var(--ano-3)"];
 
 
-const PADRAO = { ano: "", campus: "", acao: "", hist: "" };
+const METRICAS = [
+  { id: "pago", rotulo: "Pago (R$)", desc: "Valor já pago (ordem bancária emitida) em cada campus." },
+  { id: "liquidado", rotulo: "Liquidado (R$)", desc: "Despesas conferidas e reconhecidas, prontas ou já pagas." },
+  { id: "empenhado", rotulo: "Empenhado (R$)", desc: "Valor comprometido com estudantes e fornecedores." },
+  { id: "descentralizado", rotulo: "Descentralizado (R$)", desc: "Crédito que a Reitoria repassou para o campus executar." },
+  { id: "loa", rotulo: "LOA (R$)", desc: "Orçamento aprovado para o campus no ano." },
+  { id: "disponivel", rotulo: "Crédito disponível (R$)", desc: "Crédito recebido que ainda não foi empenhado." },
+  { id: "saldoEmpenho", rotulo: "Saldo de empenho (R$)", desc: "Valor empenhado que ainda não foi liquidado." },
+  { id: "pDescentralizado", rotulo: "% descentralizado da LOA", pct: ["descentralizado", "loa"], desc: "Quanto da LOA do campus já foi repassado a ele." },
+  { id: "pExecutado", rotulo: "% executado × LOA", pct: ["empenhado", "loa"], desc: "Empenhado dividido pela LOA, como no Power BI." },
+  { id: "pLiquidado", rotulo: "% liquidado do empenhado", pct: ["liquidado", "empenhado"], desc: "Quanto do que foi empenhado já foi liquidado." },
+  { id: "pPago", rotulo: "% pago do empenhado", pct: ["pago", "empenhado"], desc: "Quanto do que foi empenhado já foi pago." },
+];
+
+const PADRAO = { ano: "", campus: "", acao: "", metrica: "pago", hist: "" };
 const estado = lerEstado(PADRAO);
 const $ = (id) => document.getElementById(id);
 
@@ -70,6 +84,9 @@ async function carregarAno() {
   preencherSelect($("f-acao"), acoes.map((a) => ({ valor: a, rotulo: `${a} · ${dados.acoes[a]}` })), estado.acao, "Todas as ações");
   estado.campus = $("f-campus").value;
   estado.acao = $("f-acao").value;
+  $("f-campus-t").innerHTML = $("f-campus").innerHTML;
+  $("f-acao-t").innerHTML = $("f-acao").innerHTML;
+  preencherSelect($("f-metrica"), METRICAS.map((m) => ({ valor: m.id, rotulo: m.rotulo })), estado.metrica);
   const hist = dados.historico.map((h) => ({ valor: h.acao, rotulo: `${h.acao} · ${dados.acoes[h.acao]}` }));
   preencherSelect($("f-acao-hist"), hist, estado.hist || estado.acao || hist[0]?.valor);
   metodologia();
@@ -77,7 +94,9 @@ async function carregarAno() {
 }
 
 function ligarFiltros() {
-  $("f-campus").addEventListener("change", (e) => { estado.campus = e.target.value; atualizar(); });
+  for (const id of ["f-campus", "f-campus-t"]) $(id).addEventListener("change", (e) => { estado.campus = e.target.value; atualizar(); });
+  $("f-acao-t").addEventListener("change", (e) => { $("f-acao").value = e.target.value; $("f-acao").dispatchEvent(new Event("change")); });
+  $("f-metrica").addEventListener("change", (e) => { estado.metrica = e.target.value; graficoCampi(); gravarEstado(estado, PADRAO); });
   $("f-acao").addEventListener("change", (e) => {
     estado.acao = e.target.value;
     if (dados.historico.some((h) => h.acao === estado.acao)) { $("f-acao-hist").value = estado.acao; estado.hist = estado.acao; }
@@ -108,8 +127,8 @@ const totais = (lista) => Object.fromEntries(
 
 function atualizar() {
   gravarEstado(estado, PADRAO);
-  $("f-campus").classList.toggle("ativo", !!estado.campus);
-  $("f-acao").classList.toggle("ativo", !!estado.acao);
+  for (const id of ["f-campus", "f-campus-t"]) { $(id).value = estado.campus; $(id).classList.toggle("ativo", !!estado.campus); }
+  for (const id of ["f-acao", "f-acao-t"]) { $(id).value = estado.acao; $(id).classList.toggle("ativo", !!estado.acao); }
   $("limpar").disabled = !estado.campus && !estado.acao;
   const linhas = filtrar(dados.execucao);
   $("contagem").innerHTML = `<b>${numero(linhas.length)}</b> de ${numero(dados.execucao.length)} linhas de execução (campus × ação)`;
@@ -128,6 +147,7 @@ function atualizar() {
 
   desenharPanorama(linhas, t);
   desenharCampi();
+  graficoCampi();
   desenharAnos();
   desenharDespesas();
   desenharRegistros(linhas);
@@ -177,8 +197,8 @@ function desenharPanorama(linhas, t) {
 // ------------------------------------------------------------------ Campi
 const COLS_EXEC = [
   { chave: "loa", titulo: () => `LOA ${dados.exercicio}` },
-  { chave: "fundoJogos", titulo: () => "Execução Fundo/Jogos IF" },
-  { chave: "descentralizado", titulo: () => "Descentralizado" },
+  { chave: "fundoJogos", titulo: () => "Fundo/Jogos IF executado" },
+  { chave: "descentralizado", titulo: () => "Descentra\u00adlizado" },
   { chave: "disponivel", titulo: () => "Crédito disponível" },
   { chave: "empenhado", titulo: () => "Empenhado" },
   { chave: "saldoEmpenho", titulo: () => "Saldo de empenho" },
@@ -186,9 +206,9 @@ const COLS_EXEC = [
   { chave: "liquidado", titulo: () => "Liquidado" },
   { chave: "pago", titulo: () => "Pago" },
   { chave: "aReceber", titulo: () => "Crédito a receber" },
-  { chave: "pRepassado", titulo: () => "% repassado", pct: ["descentralizado", "loa"] },
-  { chave: "pEmpenhado", titulo: () => "% empenhado", pct: ["empenhado", "descentralizado"] },
-  { chave: "pLiquidado", titulo: () => "% liquidado", pct: ["liquidado", "empenhado"] },
+  { chave: "pRepassado", titulo: () => "% repas\u00adsado", pct: ["descentralizado", "loa"] },
+  { chave: "pEmpenhado", titulo: () => "% empe\u00adnhado", pct: ["empenhado", "descentralizado"] },
+  { chave: "pLiquidado", titulo: () => "% liqui\u00addado", pct: ["liquidado", "empenhado"] },
 ];
 const SOMAVEIS = COLS_EXEC.filter((c) => !c.pct).map((c) => c.chave);
 let ordemCampi = { chave: "loa", dir: "desc" };
@@ -199,8 +219,9 @@ function somar(lista) {
   for (const c of COLS_EXEC) if (c.pct) o[c.chave] = razao(o[c.pct[0]], o[c.pct[1]]);
   return o;
 }
+const fValor = new Intl.NumberFormat("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const celulas = (o) =>
-  COLS_EXEC.map((c) => `<td class="num">${c.pct ? pct(o[c.chave]) : moeda(o[c.chave])}</td>`).join("");
+  COLS_EXEC.map((c) => `<td class="num">${c.pct ? pct(o[c.chave]) : fValor.format(o[c.chave] || 0)}</td>`).join("");
 
 function desenharCampi() {
   const linhas = filtrar(dados.execucao);
@@ -227,7 +248,7 @@ function desenharCampi() {
   el.innerHTML = `
     <div class="tabela-topo">
       <button type="button" class="botao" id="abrir-todos">${todosAbertos ? "Recolher ações" : "Mostrar ações de todos os campi"}</button>
-      <span class="contagem"><b>${numero(lista.length)}</b> ${lista.length === 1 ? "unidade" : "unidades"} · ${numero(linhas.length)} linhas campus × ação</span>
+      <span class="contagem"><b>${numero(lista.length)}</b> ${lista.length === 1 ? "unidade" : "unidades"} · valores em R$</span>
       <button type="button" class="botao botao--verde" id="baixar-campi">${icone("planilha")} Baixar planilha</button>
     </div>
     <div class="tabela-rolagem tabela-exec" tabindex="0" role="region" aria-label="Execução por campus">
@@ -307,6 +328,37 @@ function desenharCampi() {
   $("r-campi").innerHTML = lista.length > 1
     ? `${estado.acao ? `Na ação <b>${estado.acao}</b>, ` : ""}<b>${esc(maior.campus)}</b> tem o maior valor pago (<b>${moeda(maior.t.pago)}</b>). ${menorExec ? `O menor percentual liquidado é o de <b>${esc(menorExec.campus)}</b> (<b>${pct(menorExec.t.pLiquidado)}</b> do empenhado).` : ""} No total, ${pct(total.pRepassado)} da LOA já foi repassada aos campi e ${pct(total.pLiquidado)} do empenhado foi liquidado.`
     : `Em <b>${esc(lista[0].campus)}</b>, ${pct(total.pRepassado)} da LOA já foi repassada, ${pct(total.pEmpenhado)} do recebido foi empenhado e ${pct(total.pLiquidado)} do empenhado foi liquidado.`;
+}
+function graficoCampi() {
+  const met = METRICAS.find((m) => m.id === estado.metrica) || METRICAS[0];
+  const m = new Map();
+  for (const r of filtrar(dados.execucao, { semCampus: true })) {
+    const o = m.get(r.campus) || { campus: r.campus };
+    for (const k of SOMAVEIS) o[k] = (o[k] || 0) + r[k];
+    m.set(r.campus, o);
+  }
+  const grupos = [...m.values()];
+  const itens = grupos
+    .map((g) => {
+      const valor = met.pct ? razao(g[met.pct[0]], g[met.pct[1]]) : g[met.id];
+      return { id: g.campus, rotulo: g.campus, valor: Number.isFinite(valor) ? valor : 0, g };
+    })
+    .filter((i) => (met.pct ? i.g[met.pct[1]] > 0 : i.valor !== 0))
+    .sort((a, b) => b.valor - a.valor);
+  $("t-campi-g").textContent = `${met.rotulo.replace(" (R$)", "")} por campus`;
+  $("d-campi-g").textContent = `${met.desc}${estado.acao ? ` Ação ${estado.acao}.` : " Todas as ações."} Escolha outro indicador no seletor ao lado.`;
+  barras($("g-campi"), itens, met.pct
+    ? { formatar: pct, semPct: true, rotuloTotal: false, max: Math.max(1, ...itens.map((i) => i.valor)), selecionado: estado.campus, aoClicar: alternarCampus }
+    : { selecionado: estado.campus, rotuloTotal: met.rotulo.replace(" (R$)", "").toLowerCase(), aoClicar: alternarCampus });
+  if (!itens.length) return ($("r-campi-g").innerHTML = "");
+  const [maior] = itens, menor = itens.at(-1);
+  if (met.pct) {
+    const t = Object.fromEntries(SOMAVEIS.map((k) => [k, soma(grupos, k)]));
+    $("r-campi-g").innerHTML = `No conjunto do IFAM${estado.acao ? ` (ação ${estado.acao})` : ""}, o indicador é <b>${pct(razao(t[met.pct[0]], t[met.pct[1]]))}</b>. O maior é de <b>${esc(maior.rotulo)}</b> (${pct(maior.valor)}) e o menor, de <b>${esc(menor.rotulo)}</b> (${pct(menor.valor)}).`;
+  } else {
+    const tot = soma(itens, "valor");
+    $("r-campi-g").innerHTML = `<b>${esc(maior.rotulo)}</b> lidera com <b>${moeda(maior.valor)}</b> (${pct(razao(maior.valor, tot))} do total). A menor participação é de <b>${esc(menor.rotulo)}</b> (${pct(razao(menor.valor, tot))}).`;
+  }
 }
 function alternarCampus(id) {
   estado.campus = estado.campus === id ? "" : id;

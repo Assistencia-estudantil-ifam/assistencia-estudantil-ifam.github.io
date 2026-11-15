@@ -80,9 +80,26 @@
       <div class="painel-aba" role="tabpanel" id="p-campi" aria-labelledby="aba-campi" tabindex="0" hidden>
         <section class="secao">
           <h2>Execução por campus</h2>
-          <p class="secao__desc" id="d-campi">LOA, recursos recebidos e cada etapa da despesa em cada campus, como no Power BI. Clique num campus para ver as ações dele.</p>
+          <p class="secao__desc">LOA, recursos recebidos e cada etapa da despesa em cada campus, como no Power BI. Clique num campus para ver as ações dele.</p>
           <p class="resumo" id="r-campi"></p>
+          <div class="filtros filtros--tabela" aria-label="Filtros da tabela">
+            <label class="campo"><span>Campus</span><select id="f-campus-t"></select></label>
+            <label class="campo"><span>Ação orçamentária</span><select id="f-acao-t"></select></label>
+          </div>
           <div id="tab-campi" style="margin-top:14px"></div>
+        </section>
+        <section class="secao">
+          <div class="secao__topo">
+            <div>
+              <h2 id="t-campi-g">Pago por campus</h2>
+              <p class="secao__desc" id="d-campi-g"></p>
+            </div>
+            <label class="secao__controle"><span class="visualmente-oculto">Indicador do gráfico</span>
+              <select id="f-metrica"></select></label>
+          </div>
+          <div id="g-campi"></div>
+          <p class="dica" data-dica></p>
+          <p class="resumo" id="r-campi-g"></p>
         </section>
       </div>
 
