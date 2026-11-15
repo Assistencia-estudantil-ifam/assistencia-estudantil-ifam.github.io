@@ -300,6 +300,20 @@ td .obs.aberta { -webkit-line-clamp: unset; }
 td .mais { border: 0; background: none; padding: 0; color: var(--verde-700); font-size: 0.8125rem; font-weight: 600; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
 .etiqueta { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
 .etiqueta i { width: 9px; height: 9px; border-radius: 2px; background: var(--cor); flex: none; }
+/* tabela de execução por campus (estilo Power BI) */
+.tabela-exec table { min-width: 1500px; }
+.tabela-exec tbody th, .tabela-exec tfoot th { text-align: left; font-weight: 400; white-space: nowrap; }
+.tabela-exec thead th:first-child, .tabela-exec tbody th, .tabela-exec tfoot th { position: sticky; left: 0; z-index: 1; background: var(--superficie); box-shadow: 1px 0 0 var(--linha); }
+.tabela-exec thead th:first-child { z-index: 2; background: var(--superficie-2); }
+.tabela-exec .linha-campus th, .tabela-exec .linha-campus td { font-weight: 600; }
+.tabela-exec .linha-campus.aberta th, .tabela-exec .linha-campus.aberta td { background: var(--verde-50); }
+.tabela-exec .linha-acao th, .tabela-exec .linha-acao td { color: var(--tinta-2); font-size: 0.8125rem; }
+.tabela-exec .linha-acao th { padding-left: 38px; }
+.tabela-exec tfoot th, .tabela-exec tfoot td { font-weight: 700; background: var(--superficie-2); }
+.expandir { display: inline-flex; align-items: center; gap: 6px; border: 0; background: none; padding: 2px 4px 2px 0; font: inherit; font-weight: 600; color: var(--tinta); cursor: pointer; border-radius: 4px; }
+.expandir:hover { color: var(--verde-700); }
+.expandir .seta-exp { width: 16px; height: 16px; color: var(--verde-700); transition: transform 150ms ease-out; }
+.expandir[aria-expanded="true"] .seta-exp { transform: rotate(90deg); }
 .paginacao { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-top: 10px; font-size: 0.875rem; color: var(--tinta-2); }
 .paginacao div { display: flex; gap: 6px; }
 .vazio { padding: 40px 20px; text-align: center; color: var(--tinta-2); }

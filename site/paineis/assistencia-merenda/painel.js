@@ -1,5 +1,5 @@
 import {
-  moeda, moedaCurta, pct, razao, numero, dataBR, esc, soma, icone, MARCA_IF,
+  moeda, moedaCurta, baixarCSV, pct, razao, numero, dataBR, esc, soma, icone, MARCA_IF,
   carregarJSON, lerEstado, gravarEstado, iniciarDicas, iniciarAjudas,
   indicadores, barras, colunas, tabela, abas, preencherSelect, rodape, erroCarga, vazio,
 } from "../../assets/js/comum.js";
@@ -8,21 +8,8 @@ const COR = { "2994": "var(--s-2994)", "21IV": "var(--s-21iv)", "21IH": "var(--s
 const ORDEM_ACOES = ["2994", "21IV", "21IH", "00PI"];
 const COR_ANO = ["var(--ano-1)", "var(--ano-2)", "var(--ano-3)"];
 
-const METRICAS = [
-  { id: "pago", rotulo: "Pago (R$)", desc: "Valor já pago (ordem bancária emitida) em cada campus." },
-  { id: "liquidado", rotulo: "Liquidado (R$)", desc: "Despesas conferidas e reconhecidas, prontas ou já pagas." },
-  { id: "empenhado", rotulo: "Empenhado (R$)", desc: "Valor comprometido com estudantes e fornecedores." },
-  { id: "descentralizado", rotulo: "Descentralizado (R$)", desc: "Crédito que a Reitoria repassou para o campus executar." },
-  { id: "loa", rotulo: "LOA (R$)", desc: "Orçamento aprovado para o campus no ano." },
-  { id: "disponivel", rotulo: "Crédito disponível (R$)", desc: "Crédito recebido que ainda não foi empenhado." },
-  { id: "saldoEmpenho", rotulo: "Saldo de empenho (R$)", desc: "Valor empenhado que ainda não foi liquidado." },
-  { id: "pDescentralizado", rotulo: "% descentralizado da LOA", pct: ["descentralizado", "loa"], desc: "Quanto da LOA do campus já foi repassado a ele." },
-  { id: "pExecutado", rotulo: "% executado × LOA", pct: ["empenhado", "loa"], desc: "Empenhado dividido pela LOA, como no Power BI." },
-  { id: "pLiquidado", rotulo: "% liquidado do empenhado", pct: ["liquidado", "empenhado"], desc: "Quanto do que foi empenhado já foi liquidado." },
-  { id: "pPago", rotulo: "% pago do empenhado", pct: ["pago", "empenhado"], desc: "Quanto do que foi empenhado já foi pago." },
-];
 
-const PADRAO = { ano: "", campus: "", acao: "", metrica: "pago", hist: "" };
+const PADRAO = { ano: "", campus: "", acao: "", hist: "" };
 const estado = lerEstado(PADRAO);
 const $ = (id) => document.getElementById(id);
 
@@ -83,7 +70,6 @@ async function carregarAno() {
   preencherSelect($("f-acao"), acoes.map((a) => ({ valor: a, rotulo: `${a} · ${dados.acoes[a]}` })), estado.acao, "Todas as ações");
   estado.campus = $("f-campus").value;
   estado.acao = $("f-acao").value;
-  preencherSelect($("f-metrica"), METRICAS.map((m) => ({ valor: m.id, rotulo: m.rotulo })), estado.metrica);
   const hist = dados.historico.map((h) => ({ valor: h.acao, rotulo: `${h.acao} · ${dados.acoes[h.acao]}` }));
   preencherSelect($("f-acao-hist"), hist, estado.hist || estado.acao || hist[0]?.valor);
   metodologia();
@@ -97,7 +83,6 @@ function ligarFiltros() {
     if (dados.historico.some((h) => h.acao === estado.acao)) { $("f-acao-hist").value = estado.acao; estado.hist = estado.acao; }
     atualizar();
   });
-  $("f-metrica").addEventListener("change", (e) => { estado.metrica = e.target.value; desenharCampi(); gravarEstado(estado, PADRAO); });
   $("f-acao-hist").addEventListener("change", (e) => { estado.hist = e.target.value; desenharAnos(); gravarEstado(estado, PADRAO); });
   $("limpar").addEventListener("click", () => {
     estado.campus = estado.acao = "";
@@ -190,69 +175,138 @@ function desenharPanorama(linhas, t) {
 }
 
 // ------------------------------------------------------------------ Campi
-function porCampus(lista) {
-  const m = new Map();
-  for (const r of lista) {
-    const o = m.get(r.campus) || { campus: r.campus, loa: 0, descentralizado: 0, disponivel: 0, empenhado: 0, saldoEmpenho: 0, liquidadoAPagar: 0, liquidado: 0, pago: 0, aReceber: 0 };
-    for (const k of Object.keys(o)) if (k !== "campus") o[k] += r[k];
-    m.set(r.campus, o);
-  }
-  return [...m.values()];
+const COLS_EXEC = [
+  { chave: "loa", titulo: () => `LOA ${dados.exercicio}` },
+  { chave: "fundoJogos", titulo: () => "Execução Fundo/Jogos IF" },
+  { chave: "descentralizado", titulo: () => "Descentralizado" },
+  { chave: "disponivel", titulo: () => "Crédito disponível" },
+  { chave: "empenhado", titulo: () => "Empenhado" },
+  { chave: "saldoEmpenho", titulo: () => "Saldo de empenho" },
+  { chave: "liquidadoAPagar", titulo: () => "Liquidado a pagar" },
+  { chave: "liquidado", titulo: () => "Liquidado" },
+  { chave: "pago", titulo: () => "Pago" },
+  { chave: "aReceber", titulo: () => "Crédito a receber" },
+  { chave: "pRepassado", titulo: () => "% repassado", pct: ["descentralizado", "loa"] },
+  { chave: "pEmpenhado", titulo: () => "% empenhado", pct: ["empenhado", "descentralizado"] },
+  { chave: "pLiquidado", titulo: () => "% liquidado", pct: ["liquidado", "empenhado"] },
+];
+const SOMAVEIS = COLS_EXEC.filter((c) => !c.pct).map((c) => c.chave);
+let ordemCampi = { chave: "loa", dir: "desc" };
+const abertos = new Set();
+
+function somar(lista) {
+  const o = Object.fromEntries(SOMAVEIS.map((k) => [k, soma(lista, k)]));
+  for (const c of COLS_EXEC) if (c.pct) o[c.chave] = razao(o[c.pct[0]], o[c.pct[1]]);
+  return o;
 }
+const celulas = (o) =>
+  COLS_EXEC.map((c) => `<td class="num">${c.pct ? pct(o[c.chave]) : moeda(o[c.chave])}</td>`).join("");
 
 function desenharCampi() {
-  const met = METRICAS.find((m) => m.id === estado.metrica) || METRICAS[0];
-  const grupos = porCampus(filtrar(dados.execucao, { semCampus: true }));
-  const itens = grupos
-    .map((g) => {
-      const valor = met.pct ? razao(g[met.pct[0]], g[met.pct[1]]) : g[met.id];
-      return { id: g.campus, rotulo: g.campus, valor: Number.isFinite(valor) ? valor : 0, g };
-    })
-    .filter((i) => (met.pct ? i.g[met.pct[1]] > 0 : i.valor !== 0))
-    .sort((a, b) => b.valor - a.valor);
-  $("t-campi").textContent = `${met.rotulo.replace(" (R$)", "")} por campus`;
-  $("d-campi").textContent = `${met.desc}${estado.acao ? ` Ação ${estado.acao}.` : " Todas as ações."}`;
-  barras($("g-campi"), itens, met.pct
-    ? {
-        formatar: pct, semPct: true, rotuloTotal: false, max: Math.max(1, ...itens.map((i) => i.valor)), selecionado: estado.campus,
-        aoClicar: alternarCampus,
-      }
-    : { selecionado: estado.campus, rotuloTotal: met.rotulo.replace(" (R$)", "").toLowerCase(), aoClicar: alternarCampus });
-  tabelaCampi(grupos);
-  if (!itens.length) return ($("r-campi").innerHTML = "");
-  const [maior] = itens, menor = itens.at(-1);
-  if (met.pct) {
-    const g = totais(filtrar(dados.execucao, { semCampus: true }));
-    $("r-campi").innerHTML = `No conjunto do IFAM${estado.acao ? ` (ação ${estado.acao})` : ""}, o indicador é <b>${pct(razao(g[met.pct[0]], g[met.pct[1]]))}</b>. O maior é de <b>${esc(maior.rotulo)}</b> (${pct(maior.valor)}) e o menor, de <b>${esc(menor.rotulo)}</b> (${pct(menor.valor)}).`;
-  } else {
-    const tot = soma(itens, "valor");
-    $("r-campi").innerHTML = `<b>${esc(maior.rotulo)}</b> lidera com <b>${moeda(maior.valor)}</b> (${pct(razao(maior.valor, tot))} do total). A menor participação é de <b>${esc(menor.rotulo)}</b> (${pct(razao(menor.valor, tot))}).`;
+  const linhas = filtrar(dados.execucao);
+  const grupos = new Map();
+  for (const r of linhas) {
+    if (!grupos.has(r.campus)) grupos.set(r.campus, []);
+    grupos.get(r.campus).push(r);
   }
-}
-function tabelaCampi(grupos) {
-  $("d-t-campi").textContent = `Todas as etapas da execução de cada campus${estado.acao ? `, na ação ${estado.acao}` : ", somando as quatro ações"}. Clique no título de uma coluna para ordenar.`;
-  tabela($("tab-campi"), {
-    legenda: "Execução por campus",
-    nomeArquivo: `execucao-por-campus-${dados.exercicio}${estado.acao ? `-${estado.acao}` : ""}`,
-    buscaDica: "Buscar campus…",
-    linhas: grupos.map((g) => ({ ...g, pExec: razao(g.empenhado, g.loa), pPago: razao(g.pago, g.empenhado) })),
-    ordem: { chave: "pago", dir: "desc" },
-    porPagina: 25,
-    totais: true,
-    colunas: [
-      { chave: "campus", titulo: "Campus", html: (v) => (v === estado.campus ? `<b>${esc(v)}</b>` : esc(v)) },
-      { chave: "loa", titulo: `LOA ${dados.exercicio}`, num: true, formatar: moeda, somar: true },
-      { chave: "descentralizado", titulo: "Descentralizado", num: true, formatar: moeda, somar: true },
-      { chave: "disponivel", titulo: "Crédito disponível", num: true, formatar: moeda, somar: true },
-      { chave: "empenhado", titulo: "Empenhado", num: true, formatar: moeda, somar: true },
-      { chave: "saldoEmpenho", titulo: "Saldo de empenho", num: true, formatar: moeda, somar: true },
-      { chave: "liquidado", titulo: "Liquidado", num: true, formatar: moeda, somar: true },
-      { chave: "liquidadoAPagar", titulo: "Liquidado a pagar", num: true, formatar: moeda, somar: true },
-      { chave: "pago", titulo: "Pago", num: true, formatar: moeda, somar: true },
-      { chave: "pExec", titulo: "% executado × LOA", num: true, formatar: (v) => pct(v), csv: (v) => (Number.isFinite(v) ? (v * 100).toFixed(1).replace(".", ",") : "") },
-      { chave: "pPago", titulo: "% pago do empenhado", num: true, formatar: (v) => pct(v), csv: (v) => (Number.isFinite(v) ? (v * 100).toFixed(1).replace(".", ",") : "") },
-    ],
+  const lista = [...grupos].map(([campus, ls]) => ({ campus, ls, t: somar(ls) }));
+  const { chave, dir } = ordemCampi;
+  lista.sort((a, b) => {
+    const r = chave === "campus" ? a.campus.localeCompare(b.campus, "pt-BR") : (a.t[chave] || 0) - (b.t[chave] || 0);
+    return dir === "asc" ? r : -r;
   });
+  const total = somar(linhas);
+  const todosAbertos = lista.length > 0 && lista.every((g) => abertos.has(g.campus) || estado.campus);
+  const el = $("tab-campi");
+  if (!lista.length) { el.innerHTML = vazio(); $("r-campi").innerHTML = ""; return; }
+
+  const th = (c) => {
+    const sel = chave === c.chave;
+    return `<th scope="col" class="num" ${sel ? `aria-sort="${dir === "asc" ? "ascending" : "descending"}"` : ""}><button type="button" data-ordem="${c.chave}">${esc(c.titulo())}${icone("ordenar")}</button></th>`;
+  };
+  el.innerHTML = `
+    <div class="tabela-topo">
+      <button type="button" class="botao" id="abrir-todos">${todosAbertos ? "Recolher ações" : "Mostrar ações de todos os campi"}</button>
+      <span class="contagem"><b>${numero(lista.length)}</b> ${lista.length === 1 ? "unidade" : "unidades"} · ${numero(linhas.length)} linhas campus × ação</span>
+      <button type="button" class="botao botao--verde" id="baixar-campi">${icone("planilha")} Baixar planilha</button>
+    </div>
+    <div class="tabela-rolagem tabela-exec" tabindex="0" role="region" aria-label="Execução por campus">
+      <table>
+        <caption class="visualmente-oculto">Execução orçamentária por campus e ação, ${dados.exercicio}</caption>
+        <thead><tr>
+          <th scope="col" ${chave === "campus" ? `aria-sort="${dir === "asc" ? "ascending" : "descending"}"` : ""}><button type="button" data-ordem="campus">Campus / ação${icone("ordenar")}</button></th>
+          ${COLS_EXEC.map(th).join("")}
+        </tr></thead>
+        <tbody>
+          ${lista
+            .map((g) => {
+              const aberto = !!estado.campus || abertos.has(g.campus);
+              const ordAcoes = [...g.ls].sort((a, b) => ORDEM_ACOES.indexOf(a.acao) - ORDEM_ACOES.indexOf(b.acao));
+              return `<tr class="linha-campus ${aberto ? "aberta" : ""}">
+                  <th scope="row"><button type="button" class="expandir" data-campus="${esc(g.campus)}" aria-expanded="${aberto}">
+                    <svg class="icone seta-exp" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>${esc(g.campus)}</button></th>
+                  ${celulas(g.t)}
+                </tr>
+                ${aberto
+                  ? ordAcoes
+                      .map((r) => {
+                        const o = { ...r };
+                        for (const c of COLS_EXEC) if (c.pct) o[c.chave] = razao(r[c.pct[0]], r[c.pct[1]]);
+                        return `<tr class="linha-acao"><th scope="row"><span class="etiqueta"><i style="--cor:${COR[r.acao]}"></i>${esc(r.acao)} · ${esc(dados.acoes[r.acao])}</span></th>${celulas(o)}</tr>`;
+                      })
+                      .join("")
+                  : ""}`;
+            })
+            .join("")}
+        </tbody>
+        <tfoot><tr><th scope="row">Total${estado.campus || estado.acao ? " do recorte" : " do IFAM"}</th>${celulas(total)}</tr></tfoot>
+      </table>
+    </div>`;
+
+  el.querySelectorAll(".expandir").forEach((b) =>
+    b.addEventListener("click", () => {
+      const c = b.dataset.campus;
+      abertos.has(c) ? abertos.delete(c) : abertos.add(c);
+      desenharCampi();
+      el.querySelector(`.expandir[data-campus="${CSS.escape(c)}"]`)?.focus();
+    })
+  );
+  el.querySelector("#abrir-todos").addEventListener("click", () => {
+    if (todosAbertos) abertos.clear();
+    else lista.forEach((g) => abertos.add(g.campus));
+    desenharCampi();
+  });
+  el.querySelectorAll("[data-ordem]").forEach((b) =>
+    b.addEventListener("click", () => {
+      const k = b.dataset.ordem;
+      ordemCampi = ordemCampi.chave === k ? { chave: k, dir: ordemCampi.dir === "asc" ? "desc" : "asc" } : { chave: k, dir: k === "campus" ? "asc" : "desc" };
+      desenharCampi();
+    })
+  );
+  el.querySelector("#baixar-campi").addEventListener("click", () => {
+    const pctCsv = (v) => (Number.isFinite(v) ? (v * 100).toFixed(1).replace(".", ",") : "");
+    const cols = [
+      { chave: "campus", titulo: "Campus" },
+      { chave: "acao", titulo: "Ação", csv: (v) => (v ? `${v} - ${dados.acoes[v]}` : "Total do campus") },
+      ...COLS_EXEC.map((c) => ({ chave: c.chave, titulo: c.titulo(), csv: c.pct ? pctCsv : undefined })),
+    ];
+    const saida = [];
+    for (const g of lista) {
+      for (const r of g.ls) {
+        const o = { ...r };
+        for (const c of COLS_EXEC) if (c.pct) o[c.chave] = razao(r[c.pct[0]], r[c.pct[1]]);
+        saida.push(o);
+      }
+      saida.push({ campus: g.campus, acao: "", ...g.t });
+    }
+    baixarCSV(`execucao-por-campus-${dados.exercicio}`, cols, saida);
+  });
+
+  const [maior] = [...lista].sort((a, b) => b.t.pago - a.t.pago);
+  const menorExec = [...lista].filter((g) => g.t.empenhado > 0).sort((a, b) => a.t.pLiquidado - b.t.pLiquidado)[0];
+  $("r-campi").innerHTML = lista.length > 1
+    ? `${estado.acao ? `Na ação <b>${estado.acao}</b>, ` : ""}<b>${esc(maior.campus)}</b> tem o maior valor pago (<b>${moeda(maior.t.pago)}</b>). ${menorExec ? `O menor percentual liquidado é o de <b>${esc(menorExec.campus)}</b> (<b>${pct(menorExec.t.pLiquidado)}</b> do empenhado).` : ""} No total, ${pct(total.pRepassado)} da LOA já foi repassada aos campi e ${pct(total.pLiquidado)} do empenhado foi liquidado.`
+    : `Em <b>${esc(lista[0].campus)}</b>, ${pct(total.pRepassado)} da LOA já foi repassada, ${pct(total.pEmpenhado)} do recebido foi empenhado e ${pct(total.pLiquidado)} do empenhado foi liquidado.`;
 }
 function alternarCampus(id) {
   estado.campus = estado.campus === id ? "" : id;
