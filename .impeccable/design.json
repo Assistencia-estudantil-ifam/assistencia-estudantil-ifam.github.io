@@ -1,0 +1,693 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-15T03:19:36+00:00",
+  "title": "Design System: Transparência PROEN · IFAM",
+  "extensions": {
+    "colorMeta": {
+      "verde-950": {
+        "role": "primary",
+        "displayName": "Floresta (Forest Green)",
+        "canonical": "#09310c",
+        "oklch": "oklch(27.6% 0.077 144.2)",
+        "tonalRamp": [
+          "#09310c",
+          "#1b4a20",
+          "#245829",
+          "#168821",
+          "#4fae58",
+          "#b5e6ba",
+          "#d3f2d6",
+          "#ecf9ee"
+        ]
+      },
+      "verde-700": {
+        "role": "primary",
+        "displayName": "Verde-Texto (Text Green)",
+        "canonical": "#245829",
+        "oklch": "oklch(41.2% 0.094 145.5)",
+        "tonalRamp": [
+          "#09310c",
+          "#1b4a20",
+          "#245829",
+          "#168821",
+          "#4fae58",
+          "#b5e6ba",
+          "#d3f2d6",
+          "#ecf9ee"
+        ]
+      },
+      "verde-600": {
+        "role": "primary",
+        "displayName": "Verde de Ação (Action Green)",
+        "canonical": "#168821",
+        "oklch": "oklch(54.7% 0.169 143.8)",
+        "tonalRamp": [
+          "#09310c",
+          "#1b4a20",
+          "#245829",
+          "#168821",
+          "#4fae58",
+          "#b5e6ba",
+          "#d3f2d6",
+          "#ecf9ee"
+        ]
+      },
+      "verde-200": {
+        "role": "secondary",
+        "displayName": "Menta Borda",
+        "canonical": "#b5e6ba",
+        "oklch": "oklch(87.9% 0.079 147.6)",
+        "tonalRamp": [
+          "#09310c",
+          "#1b4a20",
+          "#245829",
+          "#168821",
+          "#4fae58",
+          "#b5e6ba",
+          "#d3f2d6",
+          "#ecf9ee"
+        ]
+      },
+      "verde-100": {
+        "role": "secondary",
+        "displayName": "Menta (Summary Mint)",
+        "canonical": "#d3f2d6",
+        "oklch": "oklch(93.1% 0.050 147.9)",
+        "tonalRamp": [
+          "#09310c",
+          "#1b4a20",
+          "#245829",
+          "#168821",
+          "#4fae58",
+          "#b5e6ba",
+          "#d3f2d6",
+          "#ecf9ee"
+        ]
+      },
+      "verde-50": {
+        "role": "secondary",
+        "displayName": "Menta Clara",
+        "canonical": "#ecf9ee",
+        "oklch": "oklch(96.9% 0.020 150.1)",
+        "tonalRamp": [
+          "#09310c",
+          "#1b4a20",
+          "#245829",
+          "#168821",
+          "#4fae58",
+          "#b5e6ba",
+          "#d3f2d6",
+          "#ecf9ee"
+        ]
+      },
+      "s-2994": {
+        "role": "tertiary",
+        "displayName": "Série 2994 · Federal Blue",
+        "canonical": "#1351b4",
+        "oklch": "oklch(46.0% 0.169 260.1)",
+        "tonalRamp": [
+          "#000925",
+          "#012057",
+          "#033b90",
+          "#1f5bbe",
+          "#427fe5",
+          "#6fa4fe",
+          "#accbfd",
+          "#e6efff"
+        ]
+      },
+      "s-21iv": {
+        "role": "tertiary",
+        "displayName": "Série 21IV · Amber",
+        "canonical": "#e8a317",
+        "oklch": "oklch(76.3% 0.155 77.3)",
+        "tonalRamp": [
+          "#130900",
+          "#342100",
+          "#593c01",
+          "#815804",
+          "#ab7709",
+          "#d59829",
+          "#f1c075",
+          "#ffecd0"
+        ]
+      },
+      "s-21ih": {
+        "role": "tertiary",
+        "displayName": "Série 21IH · Magenta",
+        "canonical": "#b5367a",
+        "oklch": "oklch(54.1% 0.175 351.7)",
+        "tonalRamp": [
+          "#1c000e",
+          "#47032b",
+          "#79014b",
+          "#a4266c",
+          "#cb4d8e",
+          "#ed78b0",
+          "#feadd1",
+          "#ffe7f0"
+        ]
+      },
+      "s-00pi": {
+        "role": "tertiary",
+        "displayName": "Série 00PI · Action Green",
+        "canonical": "#168821",
+        "oklch": "oklch(54.7% 0.169 143.8)",
+        "tonalRamp": [
+          "#001001",
+          "#002f03",
+          "#01510b",
+          "#057615",
+          "#339b37",
+          "#64bd64",
+          "#99dd98",
+          "#d4fbd2"
+        ]
+      },
+      "s-dt": {
+        "role": "tertiary",
+        "displayName": "Regularização Grey",
+        "canonical": "#636464",
+        "oklch": "oklch(50.2% 0.001 197.1)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#414242",
+          "#606161",
+          "#818282",
+          "#a4a5a5",
+          "#c8c9c9",
+          "#eeeeee"
+        ]
+      },
+      "ano-1": {
+        "role": "tertiary",
+        "displayName": "Ano 1 · Light Green",
+        "canonical": "#a5d9aa",
+        "oklch": "oklch(83.7% 0.084 147.3)",
+        "tonalRamp": [
+          "#020f04",
+          "#0e2d13",
+          "#234d2a",
+          "#3f6e45",
+          "#609065",
+          "#86b28a",
+          "#b1d4b3",
+          "#e0f5e2"
+        ]
+      },
+      "ano-2": {
+        "role": "tertiary",
+        "displayName": "Ano 2 · Mid Green",
+        "canonical": "#4fae58",
+        "oklch": "oklch(67.3% 0.152 145.5)",
+        "tonalRamp": [
+          "#001001",
+          "#002f07",
+          "#025114",
+          "#067622",
+          "#3a9945",
+          "#69bb6f",
+          "#9cdc9f",
+          "#d5fad6"
+        ]
+      },
+      "ano-3": {
+        "role": "tertiary",
+        "displayName": "Ano 3 · Deep Green",
+        "canonical": "#0f6b19",
+        "oklch": "oklch(46.1% 0.142 144.0)",
+        "tonalRamp": [
+          "#001001",
+          "#012f04",
+          "#04510e",
+          "#1f7425",
+          "#469748",
+          "#71b971",
+          "#a2daa0",
+          "#d8f9d7"
+        ]
+      },
+      "alerta": {
+        "role": "tertiary",
+        "displayName": "Alerta Amber",
+        "canonical": "#b54708",
+        "oklch": "oklch(53.9% 0.156 43.0)",
+        "tonalRamp": [
+          "#1a0400",
+          "#421501",
+          "#6f2905",
+          "#9f3f0c",
+          "#cb5d2a",
+          "#ec855a",
+          "#feb698",
+          "#feeae1"
+        ]
+      },
+      "alerta-fundo": {
+        "role": "tertiary",
+        "displayName": "Alerta Wash",
+        "canonical": "#fff4e5",
+        "oklch": "oklch(97.2% 0.023 75.9)",
+        "tonalRamp": [
+          "#0d0b07",
+          "#2a241c",
+          "#484136",
+          "#696053",
+          "#8a8174",
+          "#ada497",
+          "#cfc8be",
+          "#f2eee8"
+        ]
+      },
+      "alerta-tinta": {
+        "role": "tertiary",
+        "displayName": "Alerta Ink",
+        "canonical": "#4a2604",
+        "oklch": "oklch(31.1% 0.070 58.2)",
+        "tonalRamp": [
+          "#140802",
+          "#361e0a",
+          "#5b391e",
+          "#7f5738",
+          "#a27858",
+          "#c39c7f",
+          "#e2c2aa",
+          "#feeadc"
+        ]
+      },
+      "fundo": {
+        "role": "neutral",
+        "displayName": "Fundo (Cool Off-White)",
+        "canonical": "#f7f8fa",
+        "oklch": "oklch(97.9% 0.003 264.5)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#242526",
+          "#414243",
+          "#606163",
+          "#818284",
+          "#a4a5a7",
+          "#c8c9ca",
+          "#eeeeef"
+        ]
+      },
+      "superficie": {
+        "role": "neutral",
+        "displayName": "Superfície (White)",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "superficie-2": {
+        "role": "neutral",
+        "displayName": "Superfície 2 (Header White)",
+        "canonical": "#fcfdff",
+        "oklch": "oklch(99.4% 0.003 264.5)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#242526",
+          "#414243",
+          "#606163",
+          "#818284",
+          "#a4a5a7",
+          "#c8c9ca",
+          "#eeeeef"
+        ]
+      },
+      "trilho": {
+        "role": "neutral",
+        "displayName": "Trilho (Track Grey)",
+        "canonical": "#eef0f3",
+        "oklch": "oklch(95.4% 0.005 258.3)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#242527",
+          "#414244",
+          "#606164",
+          "#818285",
+          "#a3a5a8",
+          "#c8c9cb",
+          "#eeeef0"
+        ]
+      },
+      "linha": {
+        "role": "neutral",
+        "displayName": "Linha (Hairline)",
+        "canonical": "#e3e3e3",
+        "oklch": "oklch(91.6% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "linha-2": {
+        "role": "neutral",
+        "displayName": "Linha 2 (Row Rule)",
+        "canonical": "#efefef",
+        "oklch": "oklch(95.2% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "tinta": {
+        "role": "neutral",
+        "displayName": "Tinta (Ink)",
+        "canonical": "#202020",
+        "oklch": "oklch(24.4% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "tinta-2": {
+        "role": "neutral",
+        "displayName": "Tinta 2 (Secondary Ink)",
+        "canonical": "#4f5050",
+        "oklch": "oklch(43.0% 0.001 197.1)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242525",
+          "#414242",
+          "#606161",
+          "#818282",
+          "#a4a5a5",
+          "#c8c9c9",
+          "#eeeeee"
+        ]
+      },
+      "tinta-3": {
+        "role": "neutral",
+        "displayName": "Tinta 3 (Note Ink)",
+        "canonical": "#636464",
+        "oklch": "oklch(50.2% 0.001 197.1)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#414242",
+          "#606161",
+          "#818282",
+          "#a4a5a5",
+          "#c8c9c9",
+          "#eeeeee"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hub title only."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Panel title inside the forest header band."
+      },
+      "numeral": {
+        "displayName": "Numeral",
+        "purpose": "Headline figure of each indicador; 17px on phones."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Section headings inside a tab."
+      },
+      "title-sm": {
+        "displayName": "Title small",
+        "purpose": "Card and cartão headings."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running text; 70–72ch measure on intros."
+      },
+      "body-sm": {
+        "displayName": "Body small",
+        "purpose": "Resumo sentence, section descriptions (80ch), field values."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Bar labels and values, indicator labels, table cells."
+      },
+      "label-strong": {
+        "displayName": "Label strong",
+        "purpose": "Buttons."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Notes, legends, hints, field labels (600), tooltip."
+      },
+      "label-caps": {
+        "displayName": "Label caps",
+        "purpose": "Table column headers."
+      }
+    },
+    "shadows": [
+      {
+        "name": "sombra",
+        "value": "0 1px 2px rgba(9, 49, 12, 0.06), 0 4px 12px rgba(9, 49, 12, 0.05)",
+        "purpose": "Help balloon (balao) opened from an indicator."
+      },
+      {
+        "name": "elevacao-cartao",
+        "value": "0 10px 28px rgba(9, 49, 12, 0.14)",
+        "purpose": "Hub card on hover, with a 2px lift."
+      },
+      {
+        "name": "dica-flutuante",
+        "value": "0 6px 18px rgba(9, 49, 12, 0.25)",
+        "purpose": "Forest pointer tooltip over bars and columns."
+      },
+      {
+        "name": "anel-foco-campo",
+        "value": "0 0 0 3px rgba(22, 136, 33, 0.25)",
+        "purpose": "Focus halo on select and search fields."
+      }
+    ],
+    "focus": {
+      "outline": "3px solid var(--verde-600)",
+      "outlineOffset": "2px",
+      "radius": "4px"
+    },
+    "motion": [
+      {
+        "name": "estado",
+        "value": "150ms ease-out",
+        "purpose": "Color, border, background and opacity state changes."
+      },
+      {
+        "name": "crescimento",
+        "value": "250ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Bar width and column height when data or filters change."
+      },
+      {
+        "name": "elevacao",
+        "value": "200ms ease-out",
+        "purpose": "Hub card lift and arrow nudge."
+      },
+      {
+        "name": "dica",
+        "value": "120ms ease-out",
+        "purpose": "Tooltip fade and 4px rise."
+      },
+      {
+        "name": "esqueleto",
+        "value": "1.3s ease-in-out infinite",
+        "purpose": "Skeleton shimmer while JSON loads."
+      },
+      {
+        "name": "reduzido",
+        "value": "0ms under prefers-reduced-motion",
+        "purpose": "All transitions and animations off."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "celular",
+        "value": "720px",
+        "purpose": "max-width: two-up indicators, restacked chart rows, 18px header corners."
+      }
+    ],
+    "layout": {
+      "contentMax": "1232px",
+      "gutter": "clamp(16px, 4vw, 104px)",
+      "valueColumn": "19ch",
+      "labelColumn": "minmax(120px, 240px)"
+    }
+  },
+  "components": [
+    {
+      "name": "Botão",
+      "kind": "button",
+      "refersTo": "botao",
+      "description": "Default bordered utility button (Limpar filtros, paginação).",
+      "html": "<button class=\"ds-botao\" type=\"button\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M18 6 6 18M6 6l12 12\"/></svg>Limpar filtros</button>",
+      "css": ".ds-botao { font-family: var(--fonte, Rawline, system-ui, sans-serif); display:inline-flex; align-items:center; gap:8px; min-height:38px; padding:7px 14px; border-radius:var(--raio-p, 8px); border:1px solid var(--linha, #e3e3e3); background:var(--superficie, #fff); color:var(--tinta, #202020); font-size:0.875rem; font-weight:600; cursor:pointer; transition:background-color 150ms ease-out, border-color 150ms ease-out; } .ds-botao svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; } .ds-botao:hover { background:var(--fundo, #f7f8fa); border-color:#c9cbcf; } .ds-botao:active { transform:translateY(1px); } .ds-botao:focus-visible { outline:3px solid var(--verde-600, #168821); outline-offset:2px; } .ds-botao:disabled { opacity:.45; cursor:not-allowed; }"
+    },
+    {
+      "name": "Botão verde",
+      "kind": "button",
+      "refersTo": "botao-verde",
+      "description": "The one positive action per table: Baixar planilha.",
+      "html": "<button class=\"ds-botao-verde\" type=\"button\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/><path d=\"M3 9h18M3 15h18M9 3v18\"/></svg>Baixar planilha</button>",
+      "css": ".ds-botao-verde { font-family: var(--fonte, Rawline, system-ui, sans-serif); display:inline-flex; align-items:center; gap:8px; min-height:38px; padding:7px 14px; border-radius:var(--raio-p, 8px); border:1px solid var(--verde-200, #b5e6ba); background:var(--verde-100, #d3f2d6); color:var(--verde-700, #245829); font-size:0.875rem; font-weight:600; cursor:pointer; transition:background-color 150ms ease-out, color 150ms ease-out; } .ds-botao-verde svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; } .ds-botao-verde:hover { background:#c3ebc7; border-color:#9bd6a1; color:var(--verde-950, #09310c); } .ds-botao-verde:focus-visible { outline:3px solid var(--verde-600, #168821); outline-offset:2px; }"
+    },
+    {
+      "name": "Campo de filtro",
+      "kind": "input",
+      "refersTo": "campo",
+      "description": "Labeled select in the filter bar; the active state marks an applied filter.",
+      "html": "<label class=\"ds-campo\"><span>Campus</span><select><option>Todos os campi</option><option selected>Coari</option></select></label>",
+      "css": ".ds-campo { font-family: var(--fonte, Rawline, system-ui, sans-serif); display:grid; gap:4px; max-width:240px; } .ds-campo span { font-size:0.8125rem; font-weight:600; color:var(--tinta-2, #4f5050); } .ds-campo select { font:inherit; appearance:none; width:100%; min-height:40px; padding:8px 36px 8px 12px; border:1px solid var(--verde-600, #168821); border-radius:var(--raio-p, 8px); background:var(--verde-50, #ecf9ee) url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23636464' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E\") no-repeat right 10px center; font-size:0.9375rem; color:var(--tinta, #202020); transition:border-color 150ms ease-out, box-shadow 150ms ease-out; } .ds-campo select:hover { border-color:#9a9c9f; } .ds-campo select:focus-visible { outline:none; border-color:var(--verde-600, #168821); box-shadow:0 0 0 3px rgba(22,136,33,.25); }"
+    },
+    {
+      "name": "Abas",
+      "kind": "nav",
+      "refersTo": "aba",
+      "description": "Underline tabs with stroke icons; selected tab is text green with a 3px rule.",
+      "html": "<div class=\"ds-abas\" role=\"tablist\"><button class=\"ds-aba\" role=\"tab\" aria-selected=\"true\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M3 3v18h18\"/><path d=\"M7 16v-5M12 16V8M17 16v-9\"/></svg>Panorama</button><button class=\"ds-aba\" role=\"tab\" aria-selected=\"false\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16\"/><path d=\"M2 21h20\"/></svg>Campi</button><button class=\"ds-aba\" role=\"tab\" aria-selected=\"false\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M3 10h18M3 15h18M9 10v10\"/></svg>Registros</button></div>",
+      "css": ".ds-abas { font-family: var(--fonte, Rawline, system-ui, sans-serif); display:flex; gap:4px; border-bottom:1px solid var(--linha, #e3e3e3); } .ds-aba { font:inherit; display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border:0; background:none; cursor:pointer; font-size:1rem; color:var(--tinta-2, #4f5050); border-bottom:3px solid transparent; margin-bottom:-1px; transition:color 150ms ease-out, border-color 150ms ease-out; } .ds-aba svg { width:17px; height:17px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; } .ds-aba:hover { color:var(--verde-700, #245829); } .ds-aba[aria-selected=\"true\"] { color:var(--verde-700, #245829); font-weight:600; border-bottom-color:var(--verde-700, #245829); } .ds-aba:focus-visible { outline:3px solid var(--verde-600, #168821); outline-offset:2px; border-radius:4px; }"
+    },
+    {
+      "name": "Estado",
+      "kind": "chip",
+      "refersTo": "estado",
+      "description": "Mint status pill for source and update date.",
+      "html": "<span class=\"ds-estado\"><span class=\"ds-ponto\"></span>Fonte: Tesouro Gerencial · atualização diária</span>",
+      "css": ".ds-estado { font-family: var(--fonte, Rawline, system-ui, sans-serif); display:inline-flex; align-items:center; gap:8px; padding:5px 14px; border-radius:999px; font-size:0.8125rem; background:var(--verde-100, #d3f2d6); color:var(--verde-700, #245829); border:1px solid var(--verde-200, #b5e6ba); } .ds-ponto { width:7px; height:7px; border-radius:50%; background:var(--verde-600, #168821); }"
+    },
+    {
+      "name": "Indicador",
+      "kind": "card",
+      "refersTo": "indicador",
+      "description": "KPI tile: numeral, label with help button, optional note; 4px text-green left rule.",
+      "html": "<div class=\"ds-indicador\"><div class=\"ds-indicador__valor\">R$ 17.834.589,16</div><div class=\"ds-indicador__rotulo\">Empenhado <button class=\"ds-ajuda\" type=\"button\" aria-label=\"O que mede: Empenhado\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 16v-4M12 8h.01\"/></svg></button></div><div class=\"ds-indicador__nota\">81,9% da LOA</div></div>",
+      "css": ".ds-indicador { font-family: var(--fonte, Rawline, system-ui, sans-serif); max-width:240px; background:var(--superficie, #fff); border:1px solid var(--linha, #e3e3e3); border-left:4px solid var(--verde-700, #245829); border-radius:var(--raio, 12px); padding:16px 14px 14px 16px; color:var(--tinta, #202020); } .ds-indicador__valor { font-size:1.5rem; font-weight:600; letter-spacing:-0.01em; line-height:1.15; white-space:nowrap; font-variant-numeric:lining-nums tabular-nums; } .ds-indicador__rotulo { display:flex; align-items:center; gap:6px; margin-top:6px; font-size:0.875rem; color:var(--tinta-2, #4f5050); } .ds-indicador__nota { margin-top:2px; font-size:0.8125rem; color:var(--tinta-3, #636464); } .ds-ajuda { display:inline-grid; place-items:center; width:22px; height:22px; margin:-4px 0; padding:0; border:0; border-radius:50%; background:transparent; color:var(--tinta-3, #636464); cursor:help; } .ds-ajuda svg { width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; } .ds-ajuda:hover { background:var(--trilho, #eef0f3); color:var(--verde-700, #245829); } .ds-ajuda:focus-visible { outline:3px solid var(--verde-600, #168821); outline-offset:2px; }"
+    },
+    {
+      "name": "Resumo",
+      "kind": "custom",
+      "refersTo": "resumo",
+      "description": "Signature: the living sentence that restates the chart in plain Portuguese and follows the filters.",
+      "html": "<p class=\"ds-resumo\">Em <b>todo o IFAM</b>, de cada R$ 100 da LOA, <b>R$ 82</b> já foram empenhados e <b>R$ 50</b> já foram pagos.</p><p class=\"ds-resumo ds-resumo--alerta\"><b>Cuidados de leitura.</b> Os valores mudam ao longo do ano.</p>",
+      "css": ".ds-resumo { font-family: var(--fonte, Rawline, system-ui, sans-serif); margin:0 0 10px; padding:12px 16px; border-radius:var(--raio-p, 8px); background:var(--verde-100, #d3f2d6); border-left:4px solid var(--verde-700, #245829); color:var(--verde-950, #09310c); font-size:0.9375rem; line-height:1.6; font-variant-numeric:lining-nums; } .ds-resumo b { font-weight:700; } .ds-resumo--alerta { background:var(--alerta-fundo, #fff4e5); border-left-color:var(--alerta, #b54708); color:#4a2604; }"
+    },
+    {
+      "name": "Barras",
+      "kind": "custom",
+      "refersTo": "barra-trilho",
+      "description": "Signature chart: label | track | 'valor · %' on the shared 19ch value grid, with a total row.",
+      "html": "<div class=\"ds-barras\"><button class=\"ds-barra\" type=\"button\"><span class=\"ds-barra__rotulo\">2994 · Assistência ao estudante</span><span class=\"ds-barra__trilho\"><i style=\"width:100%;--cor:var(--s-2994, #1351b4)\"></i></span><span class=\"ds-barra__valor\">R$ 4.596.699,50 · <small>42,3%</small></span></button><button class=\"ds-barra\" type=\"button\"><span class=\"ds-barra__rotulo\">21IV · Alimentação do estudante</span><span class=\"ds-barra__trilho\"><i style=\"width:78%;--cor:var(--s-21iv, #e8a317)\"></i></span><span class=\"ds-barra__valor\">R$ 3.594.777,41 · <small>33,1%</small></span></button><div class=\"ds-barras__total\"><b>Total</b><span>pago no recorte</span><strong>R$ 10.875.717,32</strong></div></div>",
+      "css": ".ds-barras { font-family: var(--fonte, Rawline, system-ui, sans-serif); display:grid; gap:6px; } .ds-barra { font:inherit; display:grid; grid-template-columns:minmax(120px, 200px) minmax(0,1fr) 19ch; align-items:center; gap:12px; padding:3px 4px; border:0; border-radius:var(--raio-p, 8px); background:none; text-align:left; width:100%; cursor:pointer; transition:background-color 150ms ease-out; } .ds-barra:hover { background:var(--verde-50, #ecf9ee); } .ds-barra:focus-visible { outline:3px solid var(--verde-600, #168821); outline-offset:2px; } .ds-barra__rotulo { font-size:0.875rem; color:var(--tinta-2, #4f5050); text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; } .ds-barra__trilho { position:relative; height:18px; } .ds-barra__trilho i { position:absolute; inset:0 auto 0 0; min-width:3px; border-radius:0 6px 6px 0; background:var(--cor, var(--verde-600, #168821)); transition:width 250ms cubic-bezier(0.16,1,0.3,1); } .ds-barra__valor { font-size:0.875rem; font-variant-numeric:tabular-nums; white-space:nowrap; text-align:right; color:var(--tinta, #202020); } .ds-barra__valor small { color:var(--tinta-3, #636464); font-size:0.8125rem; } .ds-barras__total { display:grid; grid-template-columns:minmax(120px, 200px) minmax(0,1fr) 19ch; gap:12px; padding:12px 4px 0; margin-top:8px; border-top:1px solid var(--linha, #e3e3e3); font-size:0.875rem; } .ds-barras__total b { text-align:right; } .ds-barras__total span { color:var(--tinta-3, #636464); font-size:0.8125rem; } .ds-barras__total strong { color:var(--verde-700, #245829); text-align:right; font-variant-numeric:tabular-nums; }"
+    },
+    {
+      "name": "Card do hub",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Hub entry card: colored cover with white data mini-bars, then title, description and update line.",
+      "html": "<a class=\"ds-card\" href=\"#\"><div class=\"ds-card__capa\"><h2>Pagamento de bolsas<small>exercício 2026</small></h2><div><div class=\"ds-mini\"><i style=\"height:30%\"></i><i style=\"height:55%\"></i><i style=\"height:48%\"></i><i style=\"height:80%\"></i><i style=\"height:100%\"></i><i class=\"fraco\" style=\"height:62%\"></i></div><div class=\"ds-mini-legenda\">R$ 4.530.718,27 a 3.312 estudantes em 2026</div></div></div><div class=\"ds-card__corpo\"><h3>Pagamento de Bolsas e Auxílios Estudantis</h3><p>Cada pagamento de auxílio a estudantes, com data, ordem bancária, campus e valor.</p><div class=\"ds-card__meta\"><span>Atualizado em 14/11/2026</span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m13 6 6 6-6 6\"/></svg></div></div></a>",
+      "css": ".ds-card { font-family: var(--fonte, Rawline, system-ui, sans-serif); display:flex; flex-direction:column; max-width:380px; overflow:hidden; border-radius:var(--raio, 12px); background:var(--superficie, #fff); border:1px solid var(--linha, #e3e3e3); color:var(--tinta, #202020); text-decoration:none; transition:box-shadow 200ms ease-out, transform 200ms ease-out, border-color 200ms ease-out; } .ds-card:hover { box-shadow:0 10px 28px rgba(9,49,12,.14); transform:translateY(-2px); border-color:var(--verde-200, #b5e6ba); } .ds-card:focus-visible { outline:3px solid var(--verde-600, #168821); outline-offset:2px; } .ds-card__capa { height:210px; padding:22px 24px; color:#fff; background:var(--verde-600, #168821); display:flex; flex-direction:column; justify-content:space-between; } .ds-card__capa h2 { margin:0 0 0 auto; font-size:1.5rem; font-weight:700; letter-spacing:-0.01em; line-height:1.2; text-align:right; max-width:15ch; } .ds-card__capa h2 small { display:block; margin-top:4px; font-size:0.8125rem; font-weight:600; } .ds-mini { display:flex; align-items:flex-end; gap:5px; height:78px; } .ds-mini i { flex:1; max-width:22px; border-radius:4px 4px 0 0; background:rgba(255,255,255,.85); } .ds-mini i.fraco { background:rgba(255,255,255,.4); } .ds-mini-legenda { font-size:0.75rem; margin-top:6px; } .ds-card__corpo { padding:16px 18px 18px; display:grid; gap:4px; } .ds-card__corpo h3 { margin:0; font-size:1rem; font-weight:700; } .ds-card__corpo p { margin:0; font-size:0.875rem; color:var(--tinta-2, #4f5050); } .ds-card__meta { display:flex; justify-content:space-between; align-items:center; margin-top:6px; font-size:0.8125rem; color:var(--tinta-3, #636464); } .ds-card__meta svg { width:16px; height:16px; stroke:var(--verde-700, #245829); fill:none; stroke-width:2; stroke-linecap:round; transition:transform 200ms ease-out; } .ds-card:hover .ds-card__meta svg { transform:translateX(3px); }"
+    },
+    {
+      "name": "Cabeçalho do painel",
+      "kind": "nav",
+      "refersTo": "topo",
+      "description": "Forest header band with rounded bottom corners: brand, panel title, description, update seal, back link.",
+      "html": "<header class=\"ds-topo\"><a class=\"ds-topo__marca\" href=\"#\"><b>Instituto Federal do Amazonas</b><small>Pró-Reitoria de Ensino · Transparência</small></a><h1>Pagamento de Bolsas e Auxílios Estudantis</h1><p>Cada pagamento de auxílio feito pelos campi do IFAM a estudantes.</p><div class=\"ds-topo__linha\"><span class=\"ds-selo\"><span></span>Atualizado em 14/11/2026 às 23:10</span><a class=\"ds-voltar\" href=\"#\">Todos os painéis</a></div></header>",
+      "css": ".ds-topo { font-family: var(--fonte, Rawline, system-ui, sans-serif); background:var(--verde-950, #09310c); color:#fff; border-radius:0 0 24px 24px; padding:28px 24px 32px; } .ds-topo__marca { display:block; margin-bottom:18px; text-decoration:none; color:var(--verde-100, #d3f2d6); font-size:0.8125rem; line-height:1.25; } .ds-topo__marca b { display:block; font-size:0.875rem; color:#fff; } .ds-topo__marca:focus-visible, .ds-voltar:focus-visible { outline:3px solid var(--verde-600, #168821); outline-offset:2px; } .ds-topo h1 { margin:0; font-size:1.875rem; font-weight:700; letter-spacing:-0.01em; line-height:1.2; } .ds-topo p { margin:8px 0 0; max-width:72ch; color:rgba(255,255,255,.9); } .ds-topo__linha { display:flex; flex-wrap:wrap; align-items:center; gap:10px 12px; margin-top:18px; } .ds-selo { display:inline-flex; align-items:center; gap:8px; padding:5px 14px; border:1px solid rgba(255,255,255,.35); border-radius:999px; font-size:0.875rem; background:rgba(255,255,255,.06); } .ds-selo span { width:8px; height:8px; border-radius:50%; background:#5fd068; box-shadow:0 0 0 3px rgba(95,208,104,.25); } .ds-voltar { color:var(--verde-100, #d3f2d6); font-size:0.875rem; text-decoration:none; } .ds-voltar:hover { color:#fff; text-decoration:underline; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Ledger That Explains Itself",
+    "overview": "**Creative North Star: \"The Ledger That Explains Itself\"**\n\nThis is a federal open-data ledger that refuses to leave a number unexplained. The visual language is a faithful copy of the HUB de Painéis DDR/Setec/MEC, pinned by the user (\"está do jeito que gostamos\"): a cool off-white page (`fundo`), white cards with gently rounded corners, a forest-green frame at the top and bottom of every panel, a single action green, and Rawline, the gov.br typeface, self-hosted at 400 to 700. Inside that frame, every chart ends in a green sentence box (`resumo`) that restates the chart in plain Portuguese, with bold figures, and rewrites itself when a filter changes. The sentence is the system's signature; the bars and the indicators exist to be read by it.\n\nDensity is operational, not editorial. A panel's first viewport carries the header band, the exercise selector, a row of four to five `indicadores`, the summary sentence, the filter bar and the tabs (Panorama, Campi, Registros, Metodologia), then sections of thick labeled horizontal bars. Space is tight inside a group (4 to 14px) and generous between sections (40px). Nothing is decorative: there is no imagery, no illustration, no gradient. The only drawn ornaments are the IFAM mark (inline SVG), Lucide-style stroke icons, and the white mini-bars on the hub's card covers, which are real data.\n\nThe system rejects the \"exported Power BI\" look of loose floating cards and the generic dark analytics dashboard. It is light, public, and plain-spoken: an audience of students, families, press and auditors arrives from an IFAM link, often on a phone over a slow connection, and must understand what was planned, received and paid in seconds.",
+    "keyCharacteristics": [
+      "Forest-green frame (header band with rounded bottom corners, footer with rounded top corners) around a light working surface.",
+      "One action green for bars, focus and active state; one text green for links, active tabs and accent rules.",
+      "Thick horizontal bars with rounded ends and a \"valor · %\" label at the tip, aligned on a shared three-column grid.",
+      "A living summary sentence in a pale green box after every chart, turning amber for cautions.",
+      "Flat surfaces separated by 1px hairlines; shadow appears only on hover lift and floating layers.",
+      "Rawline throughout, lining and tabular figures for every number, Brazilian currency formatting in full."
+    ],
+    "rules": [
+      {
+        "name": "The Forest Frame Rule",
+        "body": "Forest green (`verde-950`) is the frame, never the content: header band, footer, tooltip, and the LOA reference bar. Working surfaces stay light.",
+        "section": "colors"
+      },
+      {
+        "name": "The Fixed Series Rule",
+        "body": "Each budget action owns one color in every panel, table tag and legend, in the fixed order 2994, 21IV, 21IH, 00PI, DT. Years always use the light-to-dark `ano-*` sequence. A new panel reuses these assignments; it never reshuffles them.",
+        "section": "colors"
+      },
+      {
+        "name": "The Label Carries the Number Rule",
+        "body": "Color is never the only carrier of a value. Every bar prints \"valor · %\" at its tip, every column prints its short value above it, and every chart has a text total; this is what lets the lighter series (amber 21IV, `ano-1`) stand on white.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tabular Figures Rule",
+        "body": "Every number is set with lining figures (`\"lnum\" 1` on body) and `tabular-nums` wherever values stack: bar values, columns, table numeric and CPF/document cells, totals, variations. Money is printed in full pt-BR currency (R$ 21.772.289,72); the short form (\"R$ 1,2 mi\", \"R$ 380 mil\") is reserved for column-top labels where width is scarce.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Family Rule",
+        "body": "Rawline is the only face. Hierarchy comes from size and weight steps, never from a second family or from monospace.",
+        "section": "typography"
+      },
+      {
+        "name": "The Shared Value Column Rule",
+        "body": "Any new horizontal chart uses the label | track | 19ch value grid, so its numbers align with every other chart in the panel.",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat-At-Rest Rule",
+        "body": "Containers declare elevation once: a 1px border, no shadow. A shadow is earned only by hover or by floating above the page.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** frame every panel with the forest band (`verde-950`, 24px rounded bottom corners) and the matching footer, and keep the working surface on `fundo` with white containers.",
+      "**Do** follow every chart with a `resumo` sentence that restates it in plain Portuguese, bolds the figures, and updates with every filter; switch to `resumo--alerta` for cautions and negative balances.",
+      "**Do** print \"valor · %\" at the tip of every bar and a text total under every chart, on the shared label | track | 19ch value grid.",
+      "**Do** keep each budget action's color fixed across panels (2994 blue, 21IV amber, 21IH magenta, 00PI green, Regularização grey) and use the light-to-dark `ano-*` greens for years.",
+      "**Do** set every number in lining, tabular figures and full pt-BR currency; use the short \"mi / mil\" form only on column-top labels.",
+      "**Do** keep containers flat at 12px radius with a 1px `linha` border; reserve shadows for hover lift and floating layers, tinted from forest green.",
+      "**Do** mark the active filter state on the field itself (action-green stroke, `verde-50` fill) and keep a live record count beside \"Limpar filtros\".",
+      "**Do** use Lucide-style 2px stroke icons drawn as inline SVG, at 14 to 17px, in `currentColor`."
+    ],
+    "donts": [
+      "**Don't** build the \"exported Power BI\" page of loose floating cards, or a dark analytics dashboard; the surface stays light and the frame stays forest.",
+      "**Don't** use forest green or the series colors as large content fills; forest is the frame, series colors belong to data marks and their legend swatches.",
+      "**Don't** let color alone carry a value: no bar without its printed value, no series without its label.",
+      "**Don't** add a second typeface, a monospace \"data\" face, or a weight outside Rawline 400 to 700.",
+      "**Don't** use the 4px left accent rule outside `indicador` and `resumo`.",
+      "**Don't** round containers into pills; 999px is for the `estado` and `selo` chips only.",
+      "**Don't** add imagery, illustration, gradients or decorative texture; the only pictures are the IFAM mark and charts drawn from real data."
+    ]
+  }
+}
