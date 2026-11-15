@@ -3,7 +3,7 @@
     "assistencia": {
       "anos": {
         "2026": {
-          "atualizadoEm": "2026-11-14T23:04-04:00",
+          "atualizadoEm": "2026-11-14T23:10-04:00",
           "arquivo": "assistencia-2026.json",
           "resumo": {
             "etapas": {
@@ -20,7 +20,7 @@
     "bolsas": {
       "anos": {
         "2026": {
-          "atualizadoEm": "2026-11-14T23:04-04:00",
+          "atualizadoEm": "2026-11-14T23:10-04:00",
           "arquivo": "bolsas-2026.json",
           "resumo": {
             "totalPago": 4530718.27,
@@ -44,5 +44,5 @@
       }
     }
   },
-  "geradoEm": "2026-11-14T23:04-04:00"
+  "geradoEm": "2026-11-14T23:10-04:00"
 }

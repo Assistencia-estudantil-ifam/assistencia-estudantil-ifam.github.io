@@ -93,7 +93,7 @@ $("secoes").innerHTML = SECOES.map(
 ).join("");
 
 const datas = Object.keys(meta.paineis || {}).map((k) => ultimoAno(k)?.atualizadoEm).filter(Boolean).sort();
-if (datas.length) $("estado-geral").lastChild.textContent = `Atualizado em ${dataBR(datas.at(-1))}`;
+if (datas.length) for (const id of ["estado-geral", "estado-cab"]) $(id).lastChild.textContent = `Atualizado em ${dataBR(datas.at(-1))}`;
 
 $("busca").addEventListener("input", (ev) => {
   const t = semAcento(ev.target.value).split(/\s+/).filter(Boolean);

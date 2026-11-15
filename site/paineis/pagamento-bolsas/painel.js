@@ -8,6 +8,8 @@ const COR = { "2994": "var(--s-2994)", "21IV": "var(--s-21iv)", DT: "var(--s-dt)
 const PADRAO = { ano: "", campus: "", acao: "", mes: "", busca: "", metrica: "valor" };
 const estado = lerEstado(PADRAO);
 const $ = (id) => document.getElementById(id);
+const estreito = matchMedia("(max-width: 720px)");
+estreito.addEventListener("change", () => dados && desenharMeses());
 
 let meta, dados, linhas = [];
 const cache = {};
@@ -157,10 +159,9 @@ function desenharMeses() {
     const o = porMes.get(m) || { valor: 0, n: 0, est: new Set() };
     return { id: m, rotulo: MESES[i], rotuloLongo: `${MESES_LONGOS[i]} de ${dados.exercicio}`, valor: o.valor, extra: `${numero(o.n)} pagamentos · ${numero(o.est.size)} estudantes` };
   });
-  colunas($("g-meses"), itens, {
-    selecionado: estado.mes,
-    aoClicar: (id) => { estado.mes = estado.mes === id ? "" : id; $("f-mes").value = estado.mes; atualizar(); },
-  });
+  const aoClicar = (id) => { estado.mes = estado.mes === id ? "" : id; $("f-mes").value = estado.mes; atualizar(); };
+  if (estreito.matches) barras($("g-meses"), itens.map((i) => ({ ...i, rotulo: `${i.rotulo}/${dados.exercicio}` })), { selecionado: estado.mes, aoClicar, rotuloTotal: "pago no ano" });
+  else colunas($("g-meses"), itens, { selecionado: estado.mes, aoClicar });
   const comValor = itens.filter((i) => i.valor > 0);
   if (!comValor.length) return ($("r-meses").innerHTML = "");
   const pico = [...comValor].sort((a, b) => b.valor - a.valor)[0];
@@ -177,6 +178,13 @@ function desenharAcoes() {
     selecionado: estado.acao, rotuloTotal: "pago no recorte",
     aoClicar: (id) => { estado.acao = estado.acao === id ? "" : id; $("f-acao").value = estado.acao; atualizar(); },
   });
+  const tot = soma(itens, "valor");
+  const est = (k) => estudantes(base.filter((l) => l.acao === k));
+  const [maior] = [...itens].sort((x, y) => y.valor - x.valor);
+  const dt = itens.find((i) => i.id === "DT");
+  $("r-acoes").innerHTML = maior
+    ? `${recorteTexto().replace(/^./, (c) => c.toUpperCase())}, a ação <b>${maior.id === "DT" ? "de regularização" : maior.id}</b> responde por <b>${pct(razao(maior.valor, tot))}</b> do valor pago (${moeda(maior.valor)}, para ${numero(est(maior.id))} estudantes).${dt ? ` As regularizações somam <b>${moeda(dt.valor)}</b> em ${numero(base.filter((l) => l.acao === "DT").length)} pagamentos.` : ""}`
+    : "";
 }
 
 function desenharCampi() {

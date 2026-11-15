@@ -17,7 +17,7 @@
 
   <header class="topo">
     <div class="conteiner">
-      <a class="topo__marca" href="../../" id="marca"><span class="topo__sigla">IFAM · PROEN · TRANSPARÊNCIA</span></a>
+      <a class="topo__marca" href="../../" id="marca"><span class="topo__sigla">Instituto Federal do Amazonas<small>Pró-Reitoria de Ensino · Transparência</small></span></a>
       <h1>Assistência Estudantil e Merenda Escolar</h1>
       <p class="topo__descricao">Quanto o IFAM tem de orçamento, quanto cada campus recebeu e quanto já foi empenhado, liquidado e pago nas ações de assistência ao estudante, alimentação, atendimento a pessoas com deficiência e merenda escolar.</p>
       <div class="topo__linha">
@@ -105,14 +105,17 @@
             <label class="secao__controle"><span class="visualmente-oculto">Ação do gráfico</span>
               <select id="f-acao-hist"></select></label>
           </div>
-          <div id="g-anos-total" style="max-width:520px"></div>
-          <p class="resumo" id="r-anos"></p>
+          <div class="grade-2 anos-topo">
+            <div id="g-anos-total"></div>
+            <p class="resumo" id="r-anos"></p>
+          </div>
         </section>
         <section class="secao">
           <h2>LOA por campus, ano a ano</h2>
-          <p class="secao__desc">As três barras de cada campus são os três anos; à direita, a variação do último ano em relação ao anterior.</p>
+          <p class="secao__desc">As três barras de cada campus são os três anos; à direita, a LOA do último ano e a variação em relação ao anterior.</p>
           <ul class="legenda" id="leg-anos" style="margin-top:14px"></ul>
           <div id="g-anos-campi"></div>
+          <p class="resumo" id="r-anos-campi"></p>
         </section>
       </div>
 
@@ -126,7 +129,7 @@
         </section>
         <section class="secao">
           <h2>Notas de empenho</h2>
-          <p class="secao__desc">Cada linha é uma nota de empenho (NE) de uma natureza de despesa, com o favorecido. CPFs aparecem mascarados; CNPJs, completos.</p>
+          <p class="secao__desc">Cada linha é uma nota de empenho (NE) de uma natureza de despesa, com o favorecido. CPFs aparecem mascarados e CNPJs, completos; quando o favorecido é o próprio campus, aparece o código da unidade gestora (UG).</p>
           <div id="t-empenhos" style="margin-top:14px"></div>
         </section>
       </div>

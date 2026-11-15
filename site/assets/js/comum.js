@@ -193,7 +193,7 @@ export function colunas(el, itens, opts = {}) {
     el.innerHTML = vazio(opts.vazio);
     return;
   }
-  el.innerHTML = `<div class="colunas ${opts.selecionado ? "tem-selecao" : ""}" style="--n:${itens.length}">
+  el.innerHTML = `<div class="colunas ${opts.selecionado ? "tem-selecao" : ""} ${itens.length <= 4 ? "poucas" : ""}" style="--n:${itens.length}">
     ${itens
       .map((i) => {
         const sel = opts.selecionado && opts.selecionado === i.id;
@@ -353,6 +353,12 @@ export function baixarCSV(nome, cols, linhas) {
 // ------------------------------------------------------------------ abas
 export function abas(el, aoTrocar) {
   const botoes = [...el.querySelectorAll('[role="tab"]')];
+  const bordas = () => {
+    el.classList.toggle("mais-esquerda", el.scrollLeft > 4);
+    el.classList.toggle("mais-direita", el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+  };
+  el.addEventListener("scroll", bordas, { passive: true });
+  addEventListener("resize", bordas);
   const ativar = (b, foco) => {
     botoes.forEach((x) => {
       const sel = x === b;
@@ -360,7 +366,10 @@ export function abas(el, aoTrocar) {
       x.tabIndex = sel ? 0 : -1;
       document.getElementById(x.getAttribute("aria-controls")).hidden = !sel;
     });
-    if (foco) b.focus();
+    if (foco) b.focus({ preventScroll: true });
+    const alvo = b.offsetLeft - (el.clientWidth - b.offsetWidth) / 2;
+    el.scrollTo({ left: Math.max(0, alvo), behavior: foco ? "smooth" : "auto" });
+    bordas();
     history.replaceState(null, "", `${location.pathname}${location.search}#${b.dataset.aba}`);
     aoTrocar?.(b.dataset.aba);
   };

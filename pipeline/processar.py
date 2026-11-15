@@ -153,6 +153,8 @@ def documento_publico(doc) -> str:
         return mascarar_cpf(d)
     if len(d) == 14:
         return f"{d[:2]}.{d[2:5]}.{d[5:8]}/{d[8:12]}-{d[12:]}"
+    if len(d) == 6:
+        return f"UG {d}"  # unidade gestora (o próprio campus como favorecido)
     return texto(doc)
 
 

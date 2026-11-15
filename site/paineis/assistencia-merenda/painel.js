@@ -263,11 +263,27 @@ function desenharAnos() {
             <span class="grupo__barras" aria-label="${esc(c.campus)}: ${h.anos.map((ano, i) => `${ano} ${moeda(c.valores[i])}`).join(", ")}">
               ${c.valores.map((val, i) => `<span class="barra__trilho"><i style="width:${(val / max) * 100}%;--cor:${COR_ANO[i]}"></i></span>`).join("")}
             </span>
-            <span class="variacao ${Number.isFinite(vv) ? (vv >= 0 ? "sobe" : "desce") : ""}">${Number.isFinite(vv) ? `${icone(vv >= 0 ? "sobe" : "desce")}${vv >= 0 ? "+" : ""}${pct(vv)}` : ant === 0 && at > 0 ? "novo" : "—"}<span class="visualmente-oculto"> de ${h.anos.at(-2)} para ${h.anos.at(-1)}</span></span>
+            <span class="variacao ${Number.isFinite(vv) ? (vv >= 0 ? "sobe" : "desce") : ""}"><b>${moedaCurta(at)}</b>${Number.isFinite(vv) ? `${icone(vv >= 0 ? "sobe" : "desce")}${vv >= 0 ? "+" : ""}${pct(vv)}` : ant === 0 && at > 0 ? "novo" : "—"}<span class="visualmente-oculto"> de ${h.anos.at(-2)} para ${h.anos.at(-1)}</span></span>
           </div>`;
         })
         .join("")}</div>`
     : vazio("Este campus não tem LOA nesta ação.");
+
+  const comVar = ord
+    .map((c) => ({ campus: c.campus, ant: c.valores.at(-2), at: c.valores.at(-1) }))
+    .filter((c) => c.ant > 0)
+    .map((c) => ({ ...c, v: (c.at - c.ant) / c.ant }))
+    .sort((x, y) => x.v - y.v);
+  const [aY, bY] = h.anos.slice(-2);
+  if (!comVar.length) { $("r-anos-campi").innerHTML = ""; return; }
+  if (comVar.length === 1) {
+    const c = comVar[0];
+    $("r-anos-campi").innerHTML = `Em <b>${esc(c.campus)}</b>, a LOA da ação ${h.acao} foi de <b>${moeda(c.ant)}</b> em ${aY} para <b>${moeda(c.at)}</b> em ${bY} (<b>${c.v >= 0 ? "+" : ""}${pct(c.v)}</b>).`;
+    return;
+  }
+  const caiu = comVar.filter((c) => c.v < 0).length;
+  const pior = comVar[0], melhor = comVar.at(-1);
+  $("r-anos-campi").innerHTML = `De ${aY} para ${bY}, a LOA da ação ${h.acao} caiu em <b>${caiu}</b> de ${comVar.length} campi com orçamento nos dois anos. A maior redução foi em <b>${esc(pior.campus)}</b> (<b>${pct(pior.v)}</b>)${melhor.v > 0 ? ` e o maior aumento, em <b>${esc(melhor.campus)}</b> (<b>+${pct(melhor.v)}</b>)` : ""}.`;
 }
 
 // ------------------------------------------------------------------ Despesas
@@ -293,7 +309,7 @@ function desenharDespesas() {
       { chave: "acao", titulo: "Ação", html: (v) => `<span class="etiqueta"><i style="--cor:${COR[v]}"></i>${esc(v)}</span>` },
       { chave: "ne", titulo: "Nota de empenho", classe: "doc" },
       { chave: "favorecido", titulo: "Favorecido", formatar: (v) => v || "—" },
-      { chave: "documento", titulo: "CPF/CNPJ", classe: "doc", formatar: (v) => v || "—" },
+      { chave: "documento", titulo: "CPF/CNPJ/UG", classe: "doc", formatar: (v) => v || "—" },
       { chave: "ndDescricao", titulo: "Natureza da despesa", formatar: (v, l) => `${l.nd} · ${v}` },
       { chave: "empenhado", titulo: "Empenhado", num: true, formatar: moeda, somar: true },
       { chave: "liquidado", titulo: "Liquidado", num: true, formatar: moeda, somar: true },
@@ -409,7 +425,7 @@ function metodologia() {
         <ul>
           <li>Os nomes das unidades foram padronizados (“IFAM - CAMPUS MANAUS CENTRO” → “Manaus Centro”); a UG do instituto aparece como Reitoria.</li>
           <li>Na planilha, a coluna de orçamento da aba “LOA 2994 00PI” se chama “LOA 2025”; ela traz a LOA do exercício exibido, como no Power BI.</li>
-          <li>Na lista de notas de empenho, só entram linhas com algum valor; CPFs de favorecidos aparecem como ***.123.456-**.</li>
+          <li>Na lista de notas de empenho, só entram linhas com algum valor; CPFs de favorecidos aparecem como ***.123.456-**. Quando o favorecido é o próprio campus (pagamento de auxílios em lote), a coluna mostra o código da unidade gestora (UG).</li>
           <li>Em 2024 e 2025 o atendimento a pessoas com deficiência era um plano orçamentário da ação 2994; a partir de 2026 é a ação 21IH. A série histórica compara os valores de cada ano como estão na planilha.</li>
         </ul>
       </div>
