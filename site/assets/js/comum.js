@@ -1,4 +1,4 @@
-// Biblioteca comum dos painéis de transparência PROEN/IFAM.
+// Biblioteca comum dos painéis de Transparência IFAM.
 
 // ------------------------------------------------------------------ formatos
 const fMoeda = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
@@ -394,12 +394,12 @@ export function preencherSelect(sel, opcoes, valor, rotuloTodos) {
 
 export function rodape(el, extra = "") {
   el.innerHTML = `<div class="conteiner">
-    <div class="rodape__marcas">${MARCA_IF}<span>Instituto Federal do Amazonas<small>Pró-Reitoria de Ensino · PROEN</small></span></div>
-    <p>Dados do Tesouro Gerencial, publicados pela Pró-Reitoria de Ensino do IFAM.</p>
+    <div class="rodape__marcas">${MARCA_IF}<span>Transparência IFAM<small>Instituto Federal do Amazonas</small></span></div>
+    <p>Dados do Tesouro Gerencial (SIAFI), atualizados diariamente.</p>
     ${extra}
   </div>`;
 }
 
 export function erroCarga(el, e) {
-  el.innerHTML = `<div class="resumo resumo--alerta erro-carga" role="alert"><strong>Não foi possível carregar os dados.</strong> ${esc(e.message)} Tente recarregar a página; se o problema continuar, avise a PROEN.</div>`;
+  el.innerHTML = `<div class="resumo resumo--alerta erro-carga" role="alert"><strong>Não foi possível carregar os dados.</strong> ${esc(e.message)} Tente recarregar a página; se o problema continuar, avise a equipe responsável pelos dados.</div>`;
 }

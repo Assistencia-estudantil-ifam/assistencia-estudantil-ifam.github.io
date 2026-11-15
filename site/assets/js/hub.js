@@ -70,7 +70,7 @@ function mini(p, info) {
 
 $("secoes").innerHTML = SECOES.map(
   (s) => `<section class="hub-secao" aria-labelledby="s-${esc(semAcento(s.titulo).replace(/\W+/g, "-"))}">
-    <h2 class="hub-secao__titulo" id="s-${esc(semAcento(s.titulo).replace(/\W+/g, "-"))}">${esc(s.titulo)} (${s.paineis.length})</h2>
+    <h2 class="visualmente-oculto" id="s-${esc(semAcento(s.titulo).replace(/\W+/g, "-"))}">${esc(s.titulo)}</h2>
     <div class="cards">
       ${s.paineis
         .map((p) => {
