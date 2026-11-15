@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Assistência Estudantil e Merenda Escolar · Transparência PROEN/IFAM</title>
+  <meta name="description" content="Orçamento, empenho, liquidação e pagamento da assistência estudantil e da merenda escolar em cada campus do IFAM, atualizados diariamente.">
+  <meta name="theme-color" content="#09310c">
+  <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="../../assets/fonts/rawline-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/rawline-700.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/estilo.css">
+  <script type="module" src="./painel.js"></script>
+</head>
+<body>
+  <a class="pular" href="#conteudo">Ir para o conteúdo</a>
+
+  <header class="topo">
+    <div class="conteiner">
+      <a class="topo__marca" href="../../" id="marca"><span class="topo__sigla">IFAM · PROEN · TRANSPARÊNCIA</span></a>
+      <h1>Assistência Estudantil e Merenda Escolar</h1>
+      <p class="topo__descricao">Quanto o IFAM tem de orçamento, quanto cada campus recebeu e quanto já foi empenhado, liquidado e pago nas ações de assistência ao estudante, alimentação, atendimento a pessoas com deficiência e merenda escolar.</p>
+      <div class="topo__linha">
+        <span class="selo" id="selo"><span class="ponto" aria-hidden="true"></span>Carregando dados…</span>
+        <a class="voltar" href="../../" id="voltar"></a>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo" tabindex="-1">
+    <div class="conteiner" id="painel">
+      <div class="barra-ano">
+        <span class="estado" id="estado"><span class="ponto" aria-hidden="true"></span>Fonte: Tesouro Gerencial · atualização diária</span>
+        <label class="seletor-ano">Exercício <select id="f-ano" aria-label="Exercício (ano)"></select></label>
+      </div>
+
+      <section aria-label="Indicadores principais">
+        <div class="indicadores" id="indicadores">
+          <div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div>
+        </div>
+        <p class="resumo" id="resumo-geral" aria-live="polite">Carregando…</p>
+      </section>
+
+      <form class="filtros" id="filtros" aria-label="Filtros">
+        <label class="campo"><span>Campus</span><select id="f-campus"></select></label>
+        <label class="campo"><span>Ação orçamentária</span><select id="f-acao"></select></label>
+        <div class="filtros__rodape">
+          <span class="contagem" id="contagem" aria-live="polite"></span>
+          <button type="button" class="botao" id="limpar" disabled></button>
+        </div>
+      </form>
+
+      <div class="abas" role="tablist" aria-label="Seções do painel" id="abas">
+        <button role="tab" class="aba" id="aba-panorama" data-aba="panorama" aria-controls="p-panorama"></button>
+        <button role="tab" class="aba" id="aba-campi" data-aba="campi" aria-controls="p-campi"></button>
+        <button role="tab" class="aba" id="aba-anos" data-aba="anos" aria-controls="p-anos"></button>
+        <button role="tab" class="aba" id="aba-despesas" data-aba="despesas" aria-controls="p-despesas"></button>
+        <button role="tab" class="aba" id="aba-fundo" data-aba="fundo" aria-controls="p-fundo"></button>
+        <button role="tab" class="aba" id="aba-registros" data-aba="registros" aria-controls="p-registros"></button>
+        <button role="tab" class="aba" id="aba-metodologia" data-aba="metodologia" aria-controls="p-metodologia"></button>
+      </div>
+
+      <!-- Panorama -->
+      <div class="painel-aba" role="tabpanel" id="p-panorama" aria-labelledby="aba-panorama" tabindex="0">
+        <section class="secao">
+          <h2>Do orçamento ao pagamento</h2>
+          <p class="secao__desc">Cada despesa pública passa por estas etapas. A barra mostra o valor de cada etapa e quanto ele representa da LOA, o orçamento aprovado para o ano.</p>
+          <div id="g-etapas" style="margin-top:18px"></div>
+          <p class="resumo" id="r-etapas"></p>
+        </section>
+        <section class="secao">
+          <h2>Pago por ação orçamentária</h2>
+          <p class="secao__desc">Quanto já foi pago em cada ação. Clique numa barra para filtrar o painel por aquela ação (clique de novo para remover).</p>
+          <div id="g-acoes" style="margin-top:18px"></div>
+          <p class="dica" data-dica></p>
+          <p class="resumo" id="r-acoes"></p>
+        </section>
+      </div>
+
+      <!-- Campi -->
+      <div class="painel-aba" role="tabpanel" id="p-campi" aria-labelledby="aba-campi" tabindex="0" hidden>
+        <section class="secao">
+          <div class="secao__topo">
+            <div>
+              <h2 id="t-campi">Valores por campus</h2>
+              <p class="secao__desc" id="d-campi"></p>
+            </div>
+            <label class="secao__controle"><span class="visualmente-oculto">Indicador do gráfico</span>
+              <select id="f-metrica"></select></label>
+          </div>
+          <div id="g-campi"></div>
+          <p class="dica" data-dica></p>
+          <p class="resumo" id="r-campi"></p>
+        </section>
+      </div>
+
+      <!-- Por ano -->
+      <div class="painel-aba" role="tabpanel" id="p-anos" aria-labelledby="aba-anos" tabindex="0" hidden>
+        <section class="secao">
+          <div class="secao__topo">
+            <div>
+              <h2>LOA de cada ano</h2>
+              <p class="secao__desc">O orçamento aprovado (LOA) da ação em cada ano, para comparar a evolução. Há série histórica para as ações 2994, 21IH e 00PI.</p>
+            </div>
+            <label class="secao__controle"><span class="visualmente-oculto">Ação do gráfico</span>
+              <select id="f-acao-hist"></select></label>
+          </div>
+          <div id="g-anos-total" style="max-width:520px"></div>
+          <p class="resumo" id="r-anos"></p>
+        </section>
+        <section class="secao">
+          <h2>LOA por campus, ano a ano</h2>
+          <p class="secao__desc">As três barras de cada campus são os três anos; à direita, a variação do último ano em relação ao anterior.</p>
+          <ul class="legenda" id="leg-anos" style="margin-top:14px"></ul>
+          <div id="g-anos-campi"></div>
+        </section>
+      </div>
+
+      <!-- Despesas -->
+      <div class="painel-aba" role="tabpanel" id="p-despesas" aria-labelledby="aba-despesas" tabindex="0" hidden>
+        <section class="secao">
+          <h2>Empenhado por natureza de despesa</h2>
+          <p class="secao__desc">Em que tipo de despesa o dinheiro foi comprometido: bolsas e auxílios pagos a estudantes, gêneros alimentícios, material distribuído, serviços contratados e outros.</p>
+          <div id="g-natureza" style="margin-top:18px"></div>
+          <p class="resumo" id="r-natureza"></p>
+        </section>
+        <section class="secao">
+          <h2>Notas de empenho</h2>
+          <p class="secao__desc">Cada linha é uma nota de empenho (NE) de uma natureza de despesa, com o favorecido. CPFs aparecem mascarados; CNPJs, completos.</p>
+          <div id="t-empenhos" style="margin-top:14px"></div>
+        </section>
+      </div>
+
+      <!-- Fundo e Jogos -->
+      <div class="painel-aba" role="tabpanel" id="p-fundo" aria-labelledby="aba-fundo" tabindex="0" hidden>
+        <section class="secao">
+          <h2>Fundo da Reitoria e Jogos dos IFs</h2>
+          <p class="secao__desc">Parte do orçamento da ação 2994 fica alocada na Reitoria e é dividida entre o Fundo e os Jogos dos Institutos Federais (JIFs) de cada campus.</p>
+          <div class="indicadores" id="i-fundo" style="margin-top:16px"></div>
+          <p class="resumo" id="r-fundo"></p>
+        </section>
+        <section class="secao grade-2">
+          <div>
+            <h2>Fundo: executado por campus</h2>
+            <div id="g-fundo" style="margin-top:16px"></div>
+          </div>
+          <div>
+            <h2>Jogos IF: executado por campus</h2>
+            <div id="g-jogos" style="margin-top:16px"></div>
+          </div>
+        </section>
+        <section class="secao">
+          <h2>Orçamento e execução por campus</h2>
+          <div id="t-fundo" style="margin-top:14px"></div>
+        </section>
+      </div>
+
+      <!-- Registros -->
+      <div class="painel-aba" role="tabpanel" id="p-registros" aria-labelledby="aba-registros" tabindex="0" hidden>
+        <section class="secao">
+          <h2>Registros</h2>
+          <p class="resumo" id="r-registros"></p>
+          <div id="t-registros" style="margin-top:14px"></div>
+        </section>
+      </div>
+
+      <!-- Metodologia -->
+      <div class="painel-aba" role="tabpanel" id="p-metodologia" aria-labelledby="aba-metodologia" tabindex="0" hidden>
+        <section class="secao" id="metodologia"></section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="rodape" id="rodape"></footer>
+</body>
+</html>

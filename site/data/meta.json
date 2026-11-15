@@ -1,0 +1,48 @@
+{
+  "paineis": {
+    "assistencia": {
+      "anos": {
+        "2026": {
+          "atualizadoEm": "2026-11-14T23:04-04:00",
+          "arquivo": "assistencia-2026.json",
+          "resumo": {
+            "etapas": {
+              "loa": 21772289.72,
+              "descentralizado": 18800741.54,
+              "empenhado": 17834589.16,
+              "liquidado": 11899263.36,
+              "pago": 10875717.32
+            }
+          }
+        }
+      }
+    },
+    "bolsas": {
+      "anos": {
+        "2026": {
+          "atualizadoEm": "2026-11-14T23:04-04:00",
+          "arquivo": "bolsas-2026.json",
+          "resumo": {
+            "totalPago": 4530718.27,
+            "estudantes": 3312,
+            "meses": [
+              908.0,
+              200.0,
+              119465.33,
+              479118.64,
+              572719.8,
+              414308.01,
+              706731.27,
+              769818.45,
+              523440.56,
+              833569.4,
+              110438.81
+            ],
+            "ate": "2026-11-06"
+          }
+        }
+      }
+    }
+  },
+  "geradoEm": "2026-11-14T23:04-04:00"
+}

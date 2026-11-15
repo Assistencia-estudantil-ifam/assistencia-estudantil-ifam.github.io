@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pagamento de Bolsas · Transparência PROEN/IFAM</title>
+  <meta name="description" content="Pagamentos de auxílio estudantil feitos por cada campus do IFAM: estudante, data, ordem bancária e valor, atualizados diariamente.">
+  <meta name="theme-color" content="#09310c">
+  <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="../../assets/fonts/rawline-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/rawline-700.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/estilo.css">
+  <script type="module" src="./painel.js"></script>
+</head>
+<body>
+  <a class="pular" href="#conteudo">Ir para o conteúdo</a>
+
+  <header class="topo">
+    <div class="conteiner">
+      <a class="topo__marca" href="../../" id="marca"><span class="topo__sigla">IFAM · PROEN · TRANSPARÊNCIA</span></a>
+      <h1>Pagamento de Bolsas e Auxílios Estudantis</h1>
+      <p class="topo__descricao">Cada pagamento de auxílio feito pelos campi do IFAM a estudantes do Programa de Assistência Estudantil: quem recebeu, quando, por qual ordem bancária e quanto.</p>
+      <div class="topo__linha">
+        <span class="selo" id="selo"><span class="ponto" aria-hidden="true"></span>Carregando dados…</span>
+        <a class="voltar" href="../../" id="voltar"></a>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo" tabindex="-1">
+    <div class="conteiner">
+      <div class="barra-ano">
+        <span class="estado" id="estado"><span class="ponto" aria-hidden="true"></span>Fonte: Tesouro Gerencial · CPF mascarado</span>
+        <label class="seletor-ano">Exercício <select id="f-ano" aria-label="Exercício (ano)"></select></label>
+      </div>
+
+      <section aria-label="Indicadores principais">
+        <div class="indicadores" id="indicadores">
+          <div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div>
+        </div>
+        <p class="resumo" id="resumo-geral" aria-live="polite">Carregando…</p>
+      </section>
+
+      <form class="filtros" id="filtros" aria-label="Filtros" onsubmit="return false">
+        <label class="campo"><span>Estudante (nome ou CPF)</span><input type="search" id="f-busca" placeholder="Ex.: MARIA SILVA ou 737.681" autocomplete="off"></label>
+        <label class="campo"><span>Campus</span><select id="f-campus"></select></label>
+        <label class="campo"><span>Ação orçamentária</span><select id="f-acao"></select></label>
+        <label class="campo"><span>Mês do pagamento</span><select id="f-mes"></select></label>
+        <div class="filtros__rodape">
+          <span class="contagem" id="contagem" aria-live="polite"></span>
+          <button type="button" class="botao" id="limpar" disabled></button>
+        </div>
+      </form>
+
+      <div class="abas" role="tablist" aria-label="Seções do painel" id="abas">
+        <button role="tab" class="aba" id="aba-panorama" data-aba="panorama" aria-controls="p-panorama"></button>
+        <button role="tab" class="aba" id="aba-campi" data-aba="campi" aria-controls="p-campi"></button>
+        <button role="tab" class="aba" id="aba-registros" data-aba="registros" aria-controls="p-registros"></button>
+        <button role="tab" class="aba" id="aba-metodologia" data-aba="metodologia" aria-controls="p-metodologia"></button>
+      </div>
+
+      <div class="painel-aba" role="tabpanel" id="p-panorama" aria-labelledby="aba-panorama" tabindex="0">
+        <section class="secao">
+          <h2>Pago por mês</h2>
+          <p class="secao__desc">Valor pago em cada mês, pela data da ordem bancária. Clique numa coluna para ver só aquele mês.</p>
+          <div id="g-meses" style="margin-top:8px"></div>
+          <p class="resumo" id="r-meses"></p>
+        </section>
+        <section class="secao">
+          <h2>Pago por ação orçamentária</h2>
+          <p class="secao__desc">A maior parte dos auxílios sai da ação 2994; auxílios de alimentação podem sair da ação 21IV. Regularizações são pagamentos refeitos depois de uma ordem bancária cancelada.</p>
+          <div id="g-acoes" style="margin-top:18px"></div>
+          <p class="dica" data-dica></p>
+        </section>
+      </div>
+
+      <div class="painel-aba" role="tabpanel" id="p-campi" aria-labelledby="aba-campi" tabindex="0" hidden>
+        <section class="secao">
+          <div class="secao__topo">
+            <div>
+              <h2 id="t-campi">Valor pago por campus</h2>
+              <p class="secao__desc" id="d-campi"></p>
+            </div>
+            <label class="secao__controle"><span class="visualmente-oculto">Indicador do gráfico</span>
+              <select id="f-metrica">
+                <option value="valor">Valor pago (R$)</option>
+                <option value="estudantes">Estudantes atendidos</option>
+                <option value="pagamentos">Número de pagamentos</option>
+                <option value="media">Valor médio por estudante</option>
+              </select></label>
+          </div>
+          <div id="g-campi"></div>
+          <p class="dica" data-dica></p>
+          <p class="resumo" id="r-campi"></p>
+        </section>
+      </div>
+
+      <div class="painel-aba" role="tabpanel" id="p-registros" aria-labelledby="aba-registros" tabindex="0" hidden>
+        <section class="secao">
+          <h2>Registros</h2>
+          <p class="resumo" id="r-registros"></p>
+          <div id="t-registros" style="margin-top:14px"></div>
+        </section>
+      </div>
+
+      <div class="painel-aba" role="tabpanel" id="p-metodologia" aria-labelledby="aba-metodologia" tabindex="0" hidden>
+        <section class="secao" id="metodologia"></section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="rodape" id="rodape"></footer>
+</body>
+</html>

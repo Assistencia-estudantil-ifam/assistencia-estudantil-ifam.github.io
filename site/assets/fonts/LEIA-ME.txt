@@ -1,0 +1,3 @@
+Rawline (pesos 400, 500, 600 e 700), fonte do Padrão Digital de Governo (gov.br Design System),
+distribuída sob a SIL Open Font License 1.1. Arquivos woff2 extraídos do HUB de Painéis da DDR/Setec/MEC,
+referência visual deste site.

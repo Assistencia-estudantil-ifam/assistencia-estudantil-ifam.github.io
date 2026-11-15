@@ -1,0 +1,10 @@
+# Planilhas brutas têm CPF completo: nunca versionar no repositório público
+*.xlsx
+*.xls
+*.pbix
+/dados/
+__pycache__/
+.playwright-cli/
+.impeccable/review/
+.impeccable/mocks/
+.impeccable/config.local.json
