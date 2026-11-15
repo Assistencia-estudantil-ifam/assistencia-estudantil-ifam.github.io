@@ -65,7 +65,7 @@ O nome da organização define o endereço: `https://assistencia-estudantil-ifam
 
 ### 2. Levar o site para a organização
 
-1. Junte esta branch à `main` (pull request) no repositório atual.
+1. Na página do repositório, clique em **Branches**, depois no lápis ao lado de `claude/eager-maxwell-k6bfka` e renomeie para `main`. (Se já existir uma `main`, junte as duas por pull request.)
 2. Em **Settings → General**, no fim da página, **Transfer ownership** → escolha a organização `Assistencia-estudantil-ifam`.
 3. Já na organização, em **Settings → General → Repository name**, renomeie para
    `assistencia-estudantil-ifam.github.io` (exatamente assim, tudo minúsculo). Esse nome faz o site abrir na raiz do endereço,
