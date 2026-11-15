@@ -395,7 +395,7 @@ export function preencherSelect(sel, opcoes, valor, rotuloTodos) {
 export function rodape(el, extra = "") {
   el.innerHTML = `<div class="conteiner">
     <div class="rodape__marcas">${MARCA_IF}<span>Transparência IFAM<small>Instituto Federal do Amazonas</small></span></div>
-    <p>Dados do Tesouro Gerencial (SIAFI), atualizados diariamente.</p>
+    <p>Dados do Tesouro Gerencial (SIAFI).</p>
     ${extra}
   </div>`;
 }

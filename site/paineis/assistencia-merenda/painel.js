@@ -40,7 +40,7 @@ function montarMoldura() {
   $("limpar").innerHTML = `${icone("x")} Limpar filtros`;
   const rotulos = {
     panorama: ["barras", "Panorama"], campi: ["predio", "Campi"], anos: ["calendario", "Ano a ano"],
-    despesas: ["recibo", "Despesas"], fundo: ["trofeu", "Fundo e Jogos IF"], registros: ["tabela", "Registros"],
+    despesas: ["recibo", "Despesas"], registros: ["tabela", "Registros"],
     metodologia: ["livro", "Metodologia e dados"],
   };
   document.querySelectorAll(".aba").forEach((b) => {
@@ -118,7 +118,7 @@ function recorteTexto() {
 }
 
 const totais = (lista) => Object.fromEntries(
-  ["loa", "descentralizado", "disponivel", "empenhado", "saldoEmpenho", "liquidado", "liquidadoAPagar", "pago", "aReceber", "fundoJogos"].map((k) => [k, soma(lista, k)])
+  ["loa", "descentralizado", "disponivel", "empenhado", "saldoEmpenho", "liquidado", "liquidadoAPagar", "pago", "aReceber"].map((k) => [k, soma(lista, k)])
 );
 
 function atualizar() {
@@ -145,7 +145,6 @@ function atualizar() {
   desenharCampi();
   desenharAnos();
   desenharDespesas();
-  desenharFundo();
   desenharRegistros(linhas);
 }
 
@@ -194,7 +193,7 @@ function desenharPanorama(linhas, t) {
 function porCampus(lista) {
   const m = new Map();
   for (const r of lista) {
-    const o = m.get(r.campus) || { campus: r.campus, loa: 0, descentralizado: 0, disponivel: 0, empenhado: 0, saldoEmpenho: 0, liquidado: 0, pago: 0 };
+    const o = m.get(r.campus) || { campus: r.campus, loa: 0, descentralizado: 0, disponivel: 0, empenhado: 0, saldoEmpenho: 0, liquidadoAPagar: 0, liquidado: 0, pago: 0, aReceber: 0 };
     for (const k of Object.keys(o)) if (k !== "campus") o[k] += r[k];
     m.set(r.campus, o);
   }
@@ -219,6 +218,7 @@ function desenharCampi() {
         aoClicar: alternarCampus,
       }
     : { selecionado: estado.campus, rotuloTotal: met.rotulo.replace(" (R$)", "").toLowerCase(), aoClicar: alternarCampus });
+  tabelaCampi(grupos);
   if (!itens.length) return ($("r-campi").innerHTML = "");
   const [maior] = itens, menor = itens.at(-1);
   if (met.pct) {
@@ -228,6 +228,31 @@ function desenharCampi() {
     const tot = soma(itens, "valor");
     $("r-campi").innerHTML = `<b>${esc(maior.rotulo)}</b> lidera com <b>${moeda(maior.valor)}</b> (${pct(razao(maior.valor, tot))} do total). A menor participação é de <b>${esc(menor.rotulo)}</b> (${pct(razao(menor.valor, tot))}).`;
   }
+}
+function tabelaCampi(grupos) {
+  $("d-t-campi").textContent = `Todas as etapas da execução de cada campus${estado.acao ? `, na ação ${estado.acao}` : ", somando as quatro ações"}. Clique no título de uma coluna para ordenar.`;
+  tabela($("tab-campi"), {
+    legenda: "Execução por campus",
+    nomeArquivo: `execucao-por-campus-${dados.exercicio}${estado.acao ? `-${estado.acao}` : ""}`,
+    buscaDica: "Buscar campus…",
+    linhas: grupos.map((g) => ({ ...g, pExec: razao(g.empenhado, g.loa), pPago: razao(g.pago, g.empenhado) })),
+    ordem: { chave: "pago", dir: "desc" },
+    porPagina: 25,
+    totais: true,
+    colunas: [
+      { chave: "campus", titulo: "Campus", html: (v) => (v === estado.campus ? `<b>${esc(v)}</b>` : esc(v)) },
+      { chave: "loa", titulo: `LOA ${dados.exercicio}`, num: true, formatar: moeda, somar: true },
+      { chave: "descentralizado", titulo: "Descentralizado", num: true, formatar: moeda, somar: true },
+      { chave: "disponivel", titulo: "Crédito disponível", num: true, formatar: moeda, somar: true },
+      { chave: "empenhado", titulo: "Empenhado", num: true, formatar: moeda, somar: true },
+      { chave: "saldoEmpenho", titulo: "Saldo de empenho", num: true, formatar: moeda, somar: true },
+      { chave: "liquidado", titulo: "Liquidado", num: true, formatar: moeda, somar: true },
+      { chave: "liquidadoAPagar", titulo: "Liquidado a pagar", num: true, formatar: moeda, somar: true },
+      { chave: "pago", titulo: "Pago", num: true, formatar: moeda, somar: true },
+      { chave: "pExec", titulo: "% executado × LOA", num: true, formatar: (v) => pct(v), csv: (v) => (Number.isFinite(v) ? (v * 100).toFixed(1).replace(".", ",") : "") },
+      { chave: "pPago", titulo: "% pago do empenhado", num: true, formatar: (v) => pct(v), csv: (v) => (Number.isFinite(v) ? (v * 100).toFixed(1).replace(".", ",") : "") },
+    ],
+  });
 }
 function alternarCampus(id) {
   estado.campus = estado.campus === id ? "" : id;
@@ -319,44 +344,6 @@ function desenharDespesas() {
   });
 }
 
-// ------------------------------------------------------------------ Fundo e Jogos
-function desenharFundo() {
-  const todos = dados.fundoJogos || [];
-  const lista = todos.filter((r) => !estado.campus || r.campus === estado.campus);
-  const t = { fundo: soma(lista, "fundo"), jogos: soma(lista, "jogos"), fe: soma(lista, "fundoExecutado"), je: soma(lista, "jogosExecutado") };
-  const sf = t.fundo - t.fe, sj = t.jogos - t.je, orc = t.fundo + t.jogos, exe = t.fe + t.je;
-  indicadores($("i-fundo"), [
-    { valor: moeda(orc), rotulo: "Orçamento Fundo + Jogos IF" },
-    { valor: moeda(exe), rotulo: "Executado Fundo + Jogos IF", nota: `${pct(razao(exe, orc))} do orçamento` },
-    { valor: moeda(sf), rotulo: "Saldo do Fundo" },
-    { valor: moeda(sj), rotulo: "Saldo dos Jogos IF", nota: sj < 0 ? "execução acima do orçamento" : "" },
-  ]);
-  const r = $("r-fundo");
-  r.classList.toggle("resumo--alerta", sj < 0 || sf < 0);
-  r.innerHTML = lista.length
-    ? `${estado.campus ? `No campus <b>${esc(estado.campus)}</b>` : "No IFAM"}, o Fundo e os Jogos IF somam <b>${moeda(orc)}</b> de orçamento e <b>${moeda(exe)}</b> executados. ${sj < 0 ? `Os Jogos IF executaram <strong>${moeda(-sj)}</strong> a mais que o orçamento previsto para eles; ` : ""}o saldo total é de <b>${moeda(sf + sj)}</b>.${estado.acao && estado.acao !== "2994" ? " (O Fundo e os Jogos pertencem à ação 2994; o filtro de ação não se aplica aqui.)" : ""}`
-    : "Este recorte não tem valores do Fundo ou dos Jogos IF.";
-  const ord = (k) => lista.filter((x) => x[k] > 0).map((x) => ({ id: x.campus, rotulo: x.campus, valor: x[k] })).sort((a, b) => b.valor - a.valor);
-  barras($("g-fundo"), ord("fundoExecutado"), { rotuloTotal: "executado", selecionado: estado.campus, aoClicar: alternarCampus });
-  barras($("g-jogos"), ord("jogosExecutado"), { rotuloTotal: "executado", selecionado: estado.campus, aoClicar: alternarCampus });
-  tabela($("t-fundo"), {
-    legenda: "Fundo e Jogos IF por campus",
-    nomeArquivo: `fundo-e-jogos-${dados.exercicio}`,
-    linhas: lista.map((x) => ({ ...x, total: x.fundo + x.jogos, executado: x.fundoExecutado + x.jogosExecutado })),
-    ordem: { chave: "executado", dir: "desc" },
-    totais: true,
-    colunas: [
-      { chave: "campus", titulo: "Campus" },
-      { chave: "fundo", titulo: "Orçamento Fundo", num: true, formatar: moeda, somar: true },
-      { chave: "jogos", titulo: "Orçamento Jogos IF", num: true, formatar: moeda, somar: true },
-      { chave: "total", titulo: "Orçamento total", num: true, formatar: moeda, somar: true },
-      { chave: "fundoExecutado", titulo: "Fundo executado", num: true, formatar: moeda, somar: true },
-      { chave: "jogosExecutado", titulo: "Jogos IF executado", num: true, formatar: moeda, somar: true },
-      { chave: "executado", titulo: "Total executado", num: true, formatar: moeda, somar: true },
-    ],
-  });
-}
-
 // ------------------------------------------------------------------ Registros
 function desenharRegistros(linhas) {
   $("r-registros").innerHTML = `Tabela com <b>${numero(linhas.length)}</b> linhas ${recorteTexto()}, uma por campus e ação orçamentária, com todas as etapas da execução de ${dados.exercicio}. Use “Baixar planilha” para levar exatamente este recorte.`;
@@ -402,7 +389,7 @@ function metodologia() {
     <div class="grade-2" style="gap:16px">
       <div class="cartao">
         <h3>${icone("info")}O que o painel mostra</h3>
-        <p>A execução orçamentária das ações de assistência estudantil e merenda escolar do IFAM: quanto foi previsto na LOA, quanto a Reitoria repassou a cada campus e em que etapa da despesa está esse dinheiro. Também mostra a execução por nota de empenho, a LOA de anos anteriores e o Fundo da Reitoria e os Jogos IF.</p>
+        <p>A execução orçamentária das ações de assistência estudantil e merenda escolar do IFAM: quanto foi previsto na LOA, quanto a Reitoria repassou a cada campus e em que etapa da despesa está esse dinheiro. Também mostra a execução por nota de empenho e a LOA de anos anteriores. O Fundo da Reitoria e os Jogos IF têm painel próprio.</p>
         <h3 style="margin-top:16px">${icone("banco")}Ações orçamentárias</h3>
         <ul>${ORDEM_ACOES.map((a) => `<li><b>${a}</b> · ${esc(dados.acoes[a])}</li>`).join("")}</ul>
       </div>

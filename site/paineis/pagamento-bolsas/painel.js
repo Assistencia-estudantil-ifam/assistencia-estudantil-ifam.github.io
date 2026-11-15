@@ -214,8 +214,23 @@ function desenharCampi() {
   barras($("g-campi"), itens, met === "media"
     ? { semPct: true, rotuloTotal: false, selecionado: estado.campus, aoClicar: alternar }
     : { formatar: ehMoeda ? moeda : numero, selecionado: estado.campus, aoClicar: alternar, rotuloTotal: met === "valor" ? "pago no recorte" : met === "estudantes" ? "soma dos campi" : "pagamentos" });
-  if (!itens.length) return ($("r-campi").innerHTML = "");
   const fmt = ehMoeda ? moeda : numero;
+  tabela($("tab-campi"), {
+    legenda: "Pagamentos por campus",
+    nomeArquivo: `pagamentos-por-campus-${dados.exercicio}`,
+    buscaDica: "Buscar campus…",
+    linhas: [...g].map(([c, o]) => ({ campus: c, valor: o.valor, estudantes: o.est.size, pagamentos: o.pagamentos, media: razao(o.valor, o.est.size) })),
+    ordem: { chave: "valor", dir: "desc" },
+    totais: true,
+    colunas: [
+      { chave: "campus", titulo: "Campus", html: (v) => (v === estado.campus ? `<b>${esc(v)}</b>` : esc(v)) },
+      { chave: "valor", titulo: "Valor pago", num: true, formatar: moeda, somar: true },
+      { chave: "estudantes", titulo: "Estudantes", num: true, formatar: numero, inteiro: true },
+      { chave: "pagamentos", titulo: "Pagamentos", num: true, formatar: numero, somar: true, inteiro: true },
+      { chave: "media", titulo: "Média por estudante", num: true, formatar: moeda },
+    ],
+  });
+  if (!itens.length) return ($("r-campi").innerHTML = "");
   const [maior] = itens, menor = itens.at(-1);
   $("r-campi").innerHTML = `<b>${esc(maior.rotulo)}</b> tem o maior valor (${fmt(maior.valor)}) e <b>${esc(menor.rotulo)}</b>, o menor (${fmt(menor.valor)}).${met === "estudantes" ? " Um estudante que recebeu por mais de um campus é contado em cada um." : ""}`;
 }

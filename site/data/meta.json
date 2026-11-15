@@ -3,7 +3,7 @@
     "assistencia": {
       "anos": {
         "2026": {
-          "atualizadoEm": "2026-11-14T23:10-04:00",
+          "atualizadoEm": "2026-11-15T00:38-04:00",
           "arquivo": "assistencia-2026.json",
           "resumo": {
             "etapas": {
@@ -20,7 +20,7 @@
     "bolsas": {
       "anos": {
         "2026": {
-          "atualizadoEm": "2026-11-14T23:10-04:00",
+          "atualizadoEm": "2026-11-15T00:38-04:00",
           "arquivo": "bolsas-2026.json",
           "resumo": {
             "totalPago": 4530718.27,
@@ -42,7 +42,23 @@
           }
         }
       }
+    },
+    "fundojogos": {
+      "anos": {
+        "2026": {
+          "atualizadoEm": "2026-11-15T00:38-04:00",
+          "arquivo": "fundojogos-2026.json",
+          "resumo": {
+            "totais": {
+              "fundo": 700352.83,
+              "fundoExecutado": 399933.83,
+              "jogos": 678951.41,
+              "jogosExecutado": 727810.3
+            }
+          }
+        }
+      }
     }
   },
-  "geradoEm": "2026-11-14T23:10-04:00"
+  "geradoEm": "2026-11-15T00:38-04:00"
 }

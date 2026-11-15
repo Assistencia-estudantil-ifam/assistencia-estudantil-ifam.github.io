@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fundo e Jogos IF · Transparência IFAM</title>
+  <meta name="description" content="Orçamento e execução do Fundo da Reitoria e dos Jogos dos Institutos Federais (JIFs) em cada campus do IFAM, atualizados diariamente.">
+  <meta name="theme-color" content="#09310c">
+  <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="../../assets/fonts/rawline-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/rawline-700.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/estilo.css">
+  <script type="module" src="./painel.js"></script>
+</head>
+<body>
+  <a class="pular" href="#conteudo">Ir para o conteúdo</a>
+
+  <header class="topo">
+    <div class="conteiner">
+      <a class="topo__marca" href="../../" id="marca"><span class="topo__sigla">Transparência IFAM<small>Instituto Federal do Amazonas</small></span></a>
+      <h1>Fundo da Reitoria e Jogos dos IFs</h1>
+      <p class="topo__descricao">Parte do orçamento da ação 2994 fica na Reitoria e é dividida entre o Fundo e os Jogos dos Institutos Federais (JIFs) de cada campus. Aqui está quanto cada campus tem e quanto já executou.</p>
+      <div class="topo__linha">
+        <span class="selo" id="selo"><span class="ponto" aria-hidden="true"></span>Carregando dados…</span>
+        <a class="voltar" href="../../" id="voltar"></a>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo" tabindex="-1">
+    <div class="conteiner">
+      <div class="barra-ano">
+        <span class="estado"><span class="ponto" aria-hidden="true"></span>Fonte: Tesouro Gerencial</span>
+        <label class="seletor-ano">Exercício <select id="f-ano" aria-label="Exercício (ano)"></select></label>
+      </div>
+
+      <form class="filtros" id="filtros" aria-label="Filtros" onsubmit="return false">
+        <label class="campo"><span>Campus</span><select id="f-campus"></select></label>
+        <div class="filtros__rodape">
+          <span class="contagem" id="contagem" aria-live="polite"></span>
+          <button type="button" class="botao" id="limpar" disabled></button>
+        </div>
+      </form>
+
+      <section aria-label="Indicadores principais" class="bloco-indicadores">
+        <div class="indicadores" id="indicadores">
+          <div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div>
+        </div>
+        <p class="resumo" id="resumo-geral" aria-live="polite">Carregando…</p>
+      </section>
+
+      <div class="abas" role="tablist" aria-label="Seções do painel" id="abas">
+        <button role="tab" class="aba" id="aba-panorama" data-aba="panorama" aria-controls="p-panorama"></button>
+        <button role="tab" class="aba" id="aba-campi" data-aba="campi" aria-controls="p-campi"></button>
+        <button role="tab" class="aba" id="aba-metodologia" data-aba="metodologia" aria-controls="p-metodologia"></button>
+      </div>
+
+      <div class="painel-aba" role="tabpanel" id="p-panorama" aria-labelledby="aba-panorama" tabindex="0">
+        <section class="secao">
+          <h2>Orçamento e execução</h2>
+          <p class="secao__desc">Quanto o Fundo e os Jogos IF têm de orçamento e quanto cada um já executou. A porcentagem compara o executado com o orçamento.</p>
+          <div id="g-etapas" style="margin-top:18px"></div>
+          <p class="resumo" id="r-etapas"></p>
+        </section>
+        <section class="secao grade-2">
+          <div>
+            <h2>Fundo: executado por campus</h2>
+            <div id="g-fundo" style="margin-top:16px"></div>
+          </div>
+          <div>
+            <h2>Jogos IF: executado por campus</h2>
+            <div id="g-jogos" style="margin-top:16px"></div>
+          </div>
+        </section>
+        <p class="dica" data-dica></p>
+      </div>
+
+      <div class="painel-aba" role="tabpanel" id="p-campi" aria-labelledby="aba-campi" tabindex="0" hidden>
+        <section class="secao">
+          <div class="secao__topo">
+            <div>
+              <h2 id="t-campi">Total executado por campus</h2>
+              <p class="secao__desc" id="d-campi"></p>
+            </div>
+            <label class="secao__controle"><span class="visualmente-oculto">Indicador do gráfico</span>
+              <select id="f-metrica">
+                <option value="executado">Total executado (R$)</option>
+                <option value="fundoExecutado">Fundo executado (R$)</option>
+                <option value="jogosExecutado">Jogos IF executado (R$)</option>
+                <option value="orcamento">Orçamento total (R$)</option>
+                <option value="pExecutado">% executado do orçamento</option>
+              </select></label>
+          </div>
+          <div id="g-campi"></div>
+          <p class="dica" data-dica></p>
+          <p class="resumo" id="r-campi"></p>
+        </section>
+        <section class="secao">
+          <h2>Tabela por campus</h2>
+          <p class="secao__desc">Orçamento, execução e saldo do Fundo e dos Jogos IF em cada campus. Clique no título de uma coluna para ordenar.</p>
+          <div id="tab-campi" style="margin-top:14px"></div>
+        </section>
+      </div>
+
+      <div class="painel-aba" role="tabpanel" id="p-metodologia" aria-labelledby="aba-metodologia" tabindex="0" hidden>
+        <section class="secao" id="metodologia"></section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="rodape" id="rodape"></footer>
+</body>
+</html>

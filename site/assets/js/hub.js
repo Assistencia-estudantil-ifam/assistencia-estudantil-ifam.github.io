@@ -16,8 +16,8 @@ const SECOES = [
         capa: "#168821",
         titulo: "Assistência Estudantil e Merenda Escolar",
         capaTitulo: "Assistência estudantil e merenda escolar",
-        descricao: "LOA, recursos recebidos, empenho, liquidação e pagamento por campus e ação; LOA de 2024 a 2026; Fundo e Jogos IF.",
-        termos: "orcamento loa execucao empenho liquidado pago 2994 21iv 21ih 00pi pnae merenda alimentacao deficiencia pcd fundo jogos jif campus",
+        descricao: "LOA, recursos recebidos, empenho, liquidação e pagamento por campus e ação; LOA de 2024 a 2026; notas de empenho.",
+        termos: "orcamento loa execucao empenho liquidado pago 2994 21iv 21ih 00pi pnae merenda alimentacao deficiencia pcd campus",
       },
       {
         chave: "bolsas",
@@ -27,6 +27,15 @@ const SECOES = [
         capaTitulo: "Pagamento de bolsas",
         descricao: "Cada pagamento de auxílio a estudantes, com data, ordem bancária, campus e valor. Busque pelo nome ou pelo CPF.",
         termos: "bolsa bolsas auxilio auxilios estudante aluno pagamento cpf ob ordem bancaria credores paes",
+      },
+      {
+        chave: "fundojogos",
+        url: "paineis/fundo-jogos/",
+        capa: "#1b4a20",
+        titulo: "Fundo da Reitoria e Jogos dos IFs",
+        capaTitulo: "Fundo e Jogos IF",
+        descricao: "Orçamento e execução do Fundo da Reitoria e dos Jogos dos Institutos Federais (JIFs) em cada campus.",
+        termos: "fundo jogos jif jifs reitoria esporte orcamento execucao saldo campus 2994",
       },
     ],
   },
@@ -58,6 +67,14 @@ function mini(p, info) {
     return `<div><div class="mini" role="img" aria-label="Execução ${info.ano}: ${Object.entries(e).map(([k, v]) => `${nomes[k]} ${moeda(v)}`).join(", ")}">
       ${Object.entries(e).map(([k, v]) => `<i class="${k === "pago" ? "" : "fraco"}" style="height:${(v / max) * 100}%"></i>`).join("")}</div>
       <div class="mini-legenda">${moeda(e.pago)} pagos de ${moeda(e.loa)} da LOA ${info.ano}</div></div>`;
+  }
+  if (r.totais) {
+    const t = r.totais, orc = t.fundo + t.jogos, exe = t.fundoExecutado + t.jogosExecutado;
+    const vals = [["Orçamento do Fundo", t.fundo, "fraco"], ["Fundo executado", t.fundoExecutado, ""], ["Orçamento dos Jogos IF", t.jogos, "fraco"], ["Jogos IF executado", t.jogosExecutado, ""]];
+    const max = Math.max(...vals.map((v) => v[1]), 1);
+    return `<div><div class="mini" role="img" aria-label="${vals.map(([n, v]) => `${n} ${moeda(v)}`).join(", ")}">
+      ${vals.map(([, v, c]) => `<i class="${c}" style="height:${(v / max) * 100}%"></i>`).join("")}</div>
+      <div class="mini-legenda">${moeda(exe)} executados de ${moeda(orc)} em ${info.ano}</div></div>`;
   }
   if (r.meses) {
     const max = Math.max(...r.meses, 1);

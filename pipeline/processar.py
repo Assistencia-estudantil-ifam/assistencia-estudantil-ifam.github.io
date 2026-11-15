@@ -403,6 +403,10 @@ def resumo(tipo: str, dados: dict) -> dict:
         ex = dados["execucao"]
         etapas = {k: round(sum(r[k] for r in ex), 2) for k in ("loa", "descentralizado", "empenhado", "liquidado", "pago")}
         return {"etapas": etapas}
+    if tipo == "fundojogos":
+        fj = dados["fundoJogos"]
+        t = {k: round(sum(r[k] for r in fj), 2) for k in ("fundo", "fundoExecutado", "jogos", "jogosExecutado")}
+        return {"totais": t}
     pags = dados["pagamentos"]
     meses = [0.0] * 12
     for p in pags:
@@ -444,6 +448,19 @@ def main() -> int:
     agora = dt.datetime.now(FUSO)
     processadores = {"assistencia": processar_assistencia, "bolsas": processar_bolsas}
 
+    def gravar(nome: str, exercicio: int, dados: dict, arq: Path) -> None:
+        dados["atualizadoEm"] = agora.isoformat(timespec="minutes")
+        dados["arquivoOrigem"] = arq.name
+        destino = saida / f"{nome}-{exercicio}.json"
+        conteudo = json.dumps(dados, ensure_ascii=False, separators=(",", ":"))
+        vazado = re.search(r"(?<![\d.])\d{3}\.\d{3}\.\d{3}-\d{2}(?![\d/])|(?<![\d.])\d{11}(?![\d/])", conteudo)
+        if vazado:
+            raise ErroPlanilha(f"Encontrei um possível CPF sem máscara ({vazado.group(0)[:3]}...) em {arq.name}; nada foi publicado.")
+        destino.write_text(conteudo, "utf-8")
+        info = meta["paineis"].setdefault(nome, {"anos": {}})
+        info["anos"][str(exercicio)] = {"atualizadoEm": dados["atualizadoEm"], "arquivo": destino.name, "resumo": resumo(nome, dados)}
+        print(f"OK  {arq.name} -> {destino} ({destino.stat().st_size // 1024} KB)")
+
     for tipo, lista in por_tipo.items():
         lista.sort(key=data_do_arquivo, reverse=True)
         vistos: set[int] = set()
@@ -453,17 +470,12 @@ def main() -> int:
                 print(f"Aviso: {arq.name} é uma versão mais antiga de {tipo} {exercicio}; ignorada.")
                 continue
             vistos.add(exercicio)
-            dados["atualizadoEm"] = agora.isoformat(timespec="minutes")
-            dados["arquivoOrigem"] = arq.name
-            destino = saida / f"{tipo}-{exercicio}.json"
-            conteudo = json.dumps(dados, ensure_ascii=False, separators=(",", ":"))
-            vazado = re.search(r"(?<![\d.])\d{3}\.\d{3}\.\d{3}-\d{2}(?![\d/])|(?<![\d.])\d{11}(?![\d/])", conteudo)
-            if vazado:
-                raise ErroPlanilha(f"Encontrei um possível CPF sem máscara ({vazado.group(0)[:3]}...) em {arq.name}; nada foi publicado.")
-            destino.write_text(conteudo, "utf-8")
-            info = meta["paineis"].setdefault(tipo, {"anos": {}})
-            info["anos"][str(exercicio)] = {"atualizadoEm": dados["atualizadoEm"], "arquivo": destino.name, "resumo": resumo(tipo, dados)}
-            print(f"OK  {arq.name} -> {destino} ({destino.stat().st_size // 1024} KB)")
+            paineis = [(tipo, dados)]
+            if tipo == "assistencia":
+                # O Fundo da Reitoria e os Jogos IF vêm da mesma planilha, mas têm painel próprio.
+                paineis.append(("fundojogos", {"exercicio": exercicio, "fundoJogos": dados.pop("fundoJogos")}))
+            for nome, conteudo_painel in paineis:
+                gravar(nome, exercicio, conteudo_painel, arq)
 
     meta["geradoEm"] = agora.isoformat(timespec="minutes")
     meta_path.write_text(json.dumps(meta, ensure_ascii=False, indent=2), "utf-8")

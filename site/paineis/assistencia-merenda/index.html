@@ -30,16 +30,9 @@
   <main id="conteudo" tabindex="-1">
     <div class="conteiner" id="painel">
       <div class="barra-ano">
-        <span class="estado" id="estado"><span class="ponto" aria-hidden="true"></span>Fonte: Tesouro Gerencial · atualização diária</span>
+        <span class="estado" id="estado"><span class="ponto" aria-hidden="true"></span>Fonte: Tesouro Gerencial</span>
         <label class="seletor-ano">Exercício <select id="f-ano" aria-label="Exercício (ano)"></select></label>
       </div>
-
-      <section aria-label="Indicadores principais">
-        <div class="indicadores" id="indicadores">
-          <div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div>
-        </div>
-        <p class="resumo" id="resumo-geral" aria-live="polite">Carregando…</p>
-      </section>
 
       <form class="filtros" id="filtros" aria-label="Filtros">
         <label class="campo"><span>Campus</span><select id="f-campus"></select></label>
@@ -50,12 +43,18 @@
         </div>
       </form>
 
+      <section aria-label="Indicadores principais" class="bloco-indicadores">
+        <div class="indicadores" id="indicadores">
+          <div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div>
+        </div>
+        <p class="resumo" id="resumo-geral" aria-live="polite">Carregando…</p>
+      </section>
+
       <div class="abas" role="tablist" aria-label="Seções do painel" id="abas">
         <button role="tab" class="aba" id="aba-panorama" data-aba="panorama" aria-controls="p-panorama"></button>
         <button role="tab" class="aba" id="aba-campi" data-aba="campi" aria-controls="p-campi"></button>
         <button role="tab" class="aba" id="aba-anos" data-aba="anos" aria-controls="p-anos"></button>
         <button role="tab" class="aba" id="aba-despesas" data-aba="despesas" aria-controls="p-despesas"></button>
-        <button role="tab" class="aba" id="aba-fundo" data-aba="fundo" aria-controls="p-fundo"></button>
         <button role="tab" class="aba" id="aba-registros" data-aba="registros" aria-controls="p-registros"></button>
         <button role="tab" class="aba" id="aba-metodologia" data-aba="metodologia" aria-controls="p-metodologia"></button>
       </div>
@@ -91,6 +90,11 @@
           <div id="g-campi"></div>
           <p class="dica" data-dica></p>
           <p class="resumo" id="r-campi"></p>
+        </section>
+        <section class="secao">
+          <h2>Tabela por campus</h2>
+          <p class="secao__desc" id="d-t-campi">Todas as etapas da execução de cada campus, somando as ações do recorte. Clique no título de uma coluna para ordenar.</p>
+          <div id="tab-campi" style="margin-top:14px"></div>
         </section>
       </div>
 
@@ -131,30 +135,6 @@
           <h2>Notas de empenho</h2>
           <p class="secao__desc">Cada linha é uma nota de empenho (NE) de uma natureza de despesa, com o favorecido. CPFs aparecem mascarados e CNPJs, completos; quando o favorecido é o próprio campus, aparece o código da unidade gestora (UG).</p>
           <div id="t-empenhos" style="margin-top:14px"></div>
-        </section>
-      </div>
-
-      <!-- Fundo e Jogos -->
-      <div class="painel-aba" role="tabpanel" id="p-fundo" aria-labelledby="aba-fundo" tabindex="0" hidden>
-        <section class="secao">
-          <h2>Fundo da Reitoria e Jogos dos IFs</h2>
-          <p class="secao__desc">Parte do orçamento da ação 2994 fica alocada na Reitoria e é dividida entre o Fundo e os Jogos dos Institutos Federais (JIFs) de cada campus.</p>
-          <div class="indicadores" id="i-fundo" style="margin-top:16px"></div>
-          <p class="resumo" id="r-fundo"></p>
-        </section>
-        <section class="secao grade-2">
-          <div>
-            <h2>Fundo: executado por campus</h2>
-            <div id="g-fundo" style="margin-top:16px"></div>
-          </div>
-          <div>
-            <h2>Jogos IF: executado por campus</h2>
-            <div id="g-jogos" style="margin-top:16px"></div>
-          </div>
-        </section>
-        <section class="secao">
-          <h2>Orçamento e execução por campus</h2>
-          <div id="t-fundo" style="margin-top:14px"></div>
         </section>
       </div>
 

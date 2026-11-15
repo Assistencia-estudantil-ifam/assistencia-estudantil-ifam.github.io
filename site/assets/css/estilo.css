@@ -143,8 +143,9 @@ main { padding: 24px 0 56px; }
 .resumo--alerta strong { color: #4a2604; }
 
 /* filtros */
+.bloco-indicadores { margin-top: 14px; }
 .filtros {
-  margin-top: 14px; padding: 16px; background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio);
+  margin-top: 0; padding: 16px; background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio);
   display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; align-items: end;
 }
 .campo { display: grid; gap: 4px; min-width: 0; }
@@ -286,6 +287,7 @@ th, td { padding: 11px 12px; text-align: left; vertical-align: top; border-botto
 thead th { position: sticky; top: 0; background: var(--superficie-2); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--tinta-2); border-bottom: 1px solid var(--linha); white-space: nowrap; }
 th.num, td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 td.cpf, td.doc { font-variant-numeric: tabular-nums; white-space: nowrap; }
+tbody td:first-child, tfoot td:first-child { white-space: nowrap; }
 tbody tr:hover { background: var(--verde-50); }
 tbody tr:last-child td { border-bottom: 0; }
 tfoot td { font-weight: 700; border-top: 1px solid var(--linha); border-bottom: 0; background: var(--superficie-2); }

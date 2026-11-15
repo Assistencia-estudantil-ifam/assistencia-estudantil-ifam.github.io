@@ -34,13 +34,6 @@
         <label class="seletor-ano">Exercício <select id="f-ano" aria-label="Exercício (ano)"></select></label>
       </div>
 
-      <section aria-label="Indicadores principais">
-        <div class="indicadores" id="indicadores">
-          <div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div>
-        </div>
-        <p class="resumo" id="resumo-geral" aria-live="polite">Carregando…</p>
-      </section>
-
       <form class="filtros" id="filtros" aria-label="Filtros" onsubmit="return false">
         <label class="campo"><span>Estudante (nome ou CPF)</span><input type="search" id="f-busca" placeholder="Ex.: MARIA SILVA ou 737.681" autocomplete="off"></label>
         <label class="campo"><span>Campus</span><select id="f-campus"></select></label>
@@ -51,6 +44,13 @@
           <button type="button" class="botao" id="limpar" disabled></button>
         </div>
       </form>
+
+      <section aria-label="Indicadores principais" class="bloco-indicadores">
+        <div class="indicadores" id="indicadores">
+          <div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div><div class="esqueleto" style="height:92px"></div>
+        </div>
+        <p class="resumo" id="resumo-geral" aria-live="polite">Carregando…</p>
+      </section>
 
       <div class="abas" role="tablist" aria-label="Seções do painel" id="abas">
         <button role="tab" class="aba" id="aba-panorama" data-aba="panorama" aria-controls="p-panorama"></button>
@@ -93,6 +93,11 @@
           <div id="g-campi"></div>
           <p class="dica" data-dica></p>
           <p class="resumo" id="r-campi"></p>
+        </section>
+        <section class="secao">
+          <h2>Tabela por campus</h2>
+          <p class="secao__desc">Valor pago, estudantes e pagamentos de cada campus no recorte. Clique no título de uma coluna para ordenar.</p>
+          <div id="tab-campi" style="margin-top:14px"></div>
         </section>
       </div>
 
