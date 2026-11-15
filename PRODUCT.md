@@ -45,7 +45,8 @@ Sucesso: qualquer pessoa entende em segundos quanto foi previsto, recebido e pag
 - CPFs de pessoas físicas que aparecem como favorecidas em notas de empenho também são mascarados; CNPJs aparecem completos.
 - A planilha bruta (com CPF completo) nunca pode ir para o repositório público.
 - Sem servidor: o site é estático.
-- Em aberto: domínio definitivo.
+- Endereço: https://assistencia-estudantil-ifam.github.io (organização "Assistencia-estudantil-ifam" no GitHub, sem o usuário pessoal no link).
+- O nome do estudante aparece completo; só o CPF é mascarado (decisão do usuário).
 
 ## Brand Commitments
 

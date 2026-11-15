@@ -23,7 +23,7 @@ jobs:
       - name: Baixar o site
         uses: actions/checkout@v4
         with:
-          repository: ${{ vars.REPOSITORIO_SITE || 'lucasmetodo02-gif/IFAM' }}
+          repository: ${{ vars.REPOSITORIO_SITE || 'Assistencia-estudantil-ifam/assistencia-estudantil-ifam.github.io' }}
           ref: main
           token: ${{ secrets.TOKEN_SITE }}
           path: repositorio-site
